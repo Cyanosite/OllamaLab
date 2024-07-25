@@ -1,0 +1,724 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B56690FF2C6E65A100B9B1EE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56690FE2C6E65A100B9B1EE /* SearchView.swift */; };
+		B56691012C6EA5E200B9B1EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56691002C6EA5E200B9B1EE /* SettingsView.swift */; };
+		B5D3BBFE2C52CF9C000D49D6 /* OllamaLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BBFD2C52CF9C000D49D6 /* OllamaLabApp.swift */; };
+		B5D3BC002C52CF9C000D49D6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BBFF2C52CF9C000D49D6 /* ContentView.swift */; };
+		B5D3BC022C52CF9D000D49D6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5D3BC012C52CF9D000D49D6 /* Assets.xcassets */; };
+		B5D3BC052C52CF9D000D49D6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5D3BC042C52CF9D000D49D6 /* Preview Assets.xcassets */; };
+		B5D3BC1A2C52CF9D000D49D6 /* OllamaLabUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC192C52CF9D000D49D6 /* OllamaLabUITests.swift */; };
+		B5D3BC1C2C52CF9D000D49D6 /* OllamaLabUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC1B2C52CF9D000D49D6 /* OllamaLabUITestsLaunchTests.swift */; };
+		B5D3BC2A2C52D016000D49D6 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC292C52D016000D49D6 /* AppState.swift */; };
+		B5D3BC2D2C52D043000D49D6 /* Interactors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC2C2C52D043000D49D6 /* Interactors.swift */; };
+		B5D3BC302C52D05B000D49D6 /* ConversationInteractorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC2F2C52D05B000D49D6 /* ConversationInteractorProtocol.swift */; };
+		B5D3BC322C52D062000D49D6 /* ConversationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC312C52D062000D49D6 /* ConversationInteractor.swift */; };
+		B5D3BC352C52D099000D49D6 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC342C52D099000D49D6 /* Repository.swift */; };
+		B5D3BC372C52D0A8000D49D6 /* AIRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC362C52D0A8000D49D6 /* AIRepository.swift */; };
+		B5D3BC392C52D1D6000D49D6 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC382C52D1D6000D49D6 /* Request.swift */; };
+		B5D3BC3D2C52D28C000D49D6 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC3C2C52D28C000D49D6 /* Response.swift */; };
+		B5D3BC402C52D2BA000D49D6 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC3F2C52D2BA000D49D6 /* Conversation.swift */; };
+		B5D3BC422C52D2CF000D49D6 /* ConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC412C52D2CF000D49D6 /* ConversationView.swift */; };
+		B5D3BC452C52D2F5000D49D6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC442C52D2F5000D49D6 /* Message.swift */; };
+		B5D3BC4A2C52D337000D49D6 /* RequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC492C52D337000D49D6 /* RequestTests.swift */; };
+		B5D3BC4C2C52D34E000D49D6 /* ResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC4B2C52D34E000D49D6 /* ResponseTests.swift */; };
+		B5D3BC4E2C52D8B5000D49D6 /* AssistantMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC4D2C52D8B5000D49D6 /* AssistantMessageView.swift */; };
+		B5D3BC502C52D8DD000D49D6 /* UserMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BC4F2C52D8DD000D49D6 /* UserMessageView.swift */; };
+		B5EB4F3F2C6EACFD00F38CF5 /* CopyButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EB4F3E2C6EACFD00F38CF5 /* CopyButtonView.swift */; };
+		B5EB4F432C6EAF6A00F38CF5 /* RegenerateButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EB4F422C6EAF6A00F38CF5 /* RegenerateButtonView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B5D3BC0C2C52CF9D000D49D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5D3BBF22C52CF9B000D49D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B5D3BBF92C52CF9C000D49D6;
+			remoteInfo = OllamaLab;
+		};
+		B5D3BC162C52CF9D000D49D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5D3BBF22C52CF9B000D49D6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B5D3BBF92C52CF9C000D49D6;
+			remoteInfo = OllamaLab;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B56690FE2C6E65A100B9B1EE /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		B56691002C6EA5E200B9B1EE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B5D3BBFA2C52CF9C000D49D6 /* OllamaLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OllamaLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5D3BBFD2C52CF9C000D49D6 /* OllamaLabApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaLabApp.swift; sourceTree = "<group>"; };
+		B5D3BBFF2C52CF9C000D49D6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B5D3BC012C52CF9D000D49D6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B5D3BC042C52CF9D000D49D6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B5D3BC062C52CF9D000D49D6 /* OllamaLab.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OllamaLab.entitlements; sourceTree = "<group>"; };
+		B5D3BC0B2C52CF9D000D49D6 /* OllamaLabTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OllamaLabTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5D3BC152C52CF9D000D49D6 /* OllamaLabUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OllamaLabUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5D3BC192C52CF9D000D49D6 /* OllamaLabUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaLabUITests.swift; sourceTree = "<group>"; };
+		B5D3BC1B2C52CF9D000D49D6 /* OllamaLabUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaLabUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B5D3BC292C52D016000D49D6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		B5D3BC2C2C52D043000D49D6 /* Interactors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactors.swift; sourceTree = "<group>"; };
+		B5D3BC2F2C52D05B000D49D6 /* ConversationInteractorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationInteractorProtocol.swift; sourceTree = "<group>"; };
+		B5D3BC312C52D062000D49D6 /* ConversationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationInteractor.swift; sourceTree = "<group>"; };
+		B5D3BC342C52D099000D49D6 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		B5D3BC362C52D0A8000D49D6 /* AIRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIRepository.swift; sourceTree = "<group>"; };
+		B5D3BC382C52D1D6000D49D6 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		B5D3BC3C2C52D28C000D49D6 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		B5D3BC3F2C52D2BA000D49D6 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		B5D3BC412C52D2CF000D49D6 /* ConversationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationView.swift; sourceTree = "<group>"; };
+		B5D3BC442C52D2F5000D49D6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		B5D3BC492C52D337000D49D6 /* RequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTests.swift; sourceTree = "<group>"; };
+		B5D3BC4B2C52D34E000D49D6 /* ResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseTests.swift; sourceTree = "<group>"; };
+		B5D3BC4D2C52D8B5000D49D6 /* AssistantMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantMessageView.swift; sourceTree = "<group>"; };
+		B5D3BC4F2C52D8DD000D49D6 /* UserMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMessageView.swift; sourceTree = "<group>"; };
+		B5EB4F3E2C6EACFD00F38CF5 /* CopyButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyButtonView.swift; sourceTree = "<group>"; };
+		B5EB4F422C6EAF6A00F38CF5 /* RegenerateButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegenerateButtonView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B5D3BBF72C52CF9C000D49D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC082C52CF9D000D49D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC122C52CF9D000D49D6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B5D3BBF12C52CF9B000D49D6 = {
+			isa = PBXGroup;
+			children = (
+				B5D3BBFC2C52CF9C000D49D6 /* OllamaLab */,
+				B5D3BC0E2C52CF9D000D49D6 /* OllamaLabTests */,
+				B5D3BC182C52CF9D000D49D6 /* OllamaLabUITests */,
+				B5D3BBFB2C52CF9C000D49D6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B5D3BBFB2C52CF9C000D49D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BBFA2C52CF9C000D49D6 /* OllamaLab.app */,
+				B5D3BC0B2C52CF9D000D49D6 /* OllamaLabTests.xctest */,
+				B5D3BC152C52CF9D000D49D6 /* OllamaLabUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B5D3BBFC2C52CF9C000D49D6 /* OllamaLab */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BBFD2C52CF9C000D49D6 /* OllamaLabApp.swift */,
+				B56691002C6EA5E200B9B1EE /* SettingsView.swift */,
+				B5D3BBFF2C52CF9C000D49D6 /* ContentView.swift */,
+				B56690FE2C6E65A100B9B1EE /* SearchView.swift */,
+				B5D3BC282C52D00B000D49D6 /* AppState */,
+				B5D3BC2B2C52D02C000D49D6 /* Interactors */,
+				B5D3BC332C52D080000D49D6 /* Connection */,
+				B5D3BC3E2C52D2AC000D49D6 /* Conversation */,
+				B5D3BC012C52CF9D000D49D6 /* Assets.xcassets */,
+				B5D3BC062C52CF9D000D49D6 /* OllamaLab.entitlements */,
+				B5D3BC032C52CF9D000D49D6 /* Preview Content */,
+			);
+			path = OllamaLab;
+			sourceTree = "<group>";
+		};
+		B5D3BC032C52CF9D000D49D6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC042C52CF9D000D49D6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		B5D3BC0E2C52CF9D000D49D6 /* OllamaLabTests */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC482C52D323000D49D6 /* ConnectionTests */,
+			);
+			path = OllamaLabTests;
+			sourceTree = "<group>";
+		};
+		B5D3BC182C52CF9D000D49D6 /* OllamaLabUITests */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC192C52CF9D000D49D6 /* OllamaLabUITests.swift */,
+				B5D3BC1B2C52CF9D000D49D6 /* OllamaLabUITestsLaunchTests.swift */,
+			);
+			path = OllamaLabUITests;
+			sourceTree = "<group>";
+		};
+		B5D3BC282C52D00B000D49D6 /* AppState */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC292C52D016000D49D6 /* AppState.swift */,
+			);
+			path = AppState;
+			sourceTree = "<group>";
+		};
+		B5D3BC2B2C52D02C000D49D6 /* Interactors */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC2C2C52D043000D49D6 /* Interactors.swift */,
+				B5D3BC2E2C52D04E000D49D6 /* ConversationInteractor */,
+			);
+			path = Interactors;
+			sourceTree = "<group>";
+		};
+		B5D3BC2E2C52D04E000D49D6 /* ConversationInteractor */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC2F2C52D05B000D49D6 /* ConversationInteractorProtocol.swift */,
+				B5D3BC312C52D062000D49D6 /* ConversationInteractor.swift */,
+			);
+			path = ConversationInteractor;
+			sourceTree = "<group>";
+		};
+		B5D3BC332C52D080000D49D6 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC342C52D099000D49D6 /* Repository.swift */,
+				B5D3BC362C52D0A8000D49D6 /* AIRepository.swift */,
+				B5D3BC382C52D1D6000D49D6 /* Request.swift */,
+				B5D3BC3C2C52D28C000D49D6 /* Response.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		B5D3BC3E2C52D2AC000D49D6 /* Conversation */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC3F2C52D2BA000D49D6 /* Conversation.swift */,
+				B5D3BC412C52D2CF000D49D6 /* ConversationView.swift */,
+				B5D3BC432C52D2EB000D49D6 /* Message */,
+			);
+			path = Conversation;
+			sourceTree = "<group>";
+		};
+		B5D3BC432C52D2EB000D49D6 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC442C52D2F5000D49D6 /* Message.swift */,
+				B5EB4F3D2C6EACE500F38CF5 /* AssistantMessage */,
+				B5D3BC4F2C52D8DD000D49D6 /* UserMessageView.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		B5D3BC482C52D323000D49D6 /* ConnectionTests */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC492C52D337000D49D6 /* RequestTests.swift */,
+				B5D3BC4B2C52D34E000D49D6 /* ResponseTests.swift */,
+			);
+			path = ConnectionTests;
+			sourceTree = "<group>";
+		};
+		B5EB4F3D2C6EACE500F38CF5 /* AssistantMessage */ = {
+			isa = PBXGroup;
+			children = (
+				B5D3BC4D2C52D8B5000D49D6 /* AssistantMessageView.swift */,
+				B5EB4F422C6EAF6A00F38CF5 /* RegenerateButtonView.swift */,
+				B5EB4F3E2C6EACFD00F38CF5 /* CopyButtonView.swift */,
+			);
+			path = AssistantMessage;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B5D3BBF92C52CF9C000D49D6 /* OllamaLab */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5D3BC1F2C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLab" */;
+			buildPhases = (
+				B5D3BBF62C52CF9C000D49D6 /* Sources */,
+				B5D3BBF72C52CF9C000D49D6 /* Frameworks */,
+				B5D3BBF82C52CF9C000D49D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OllamaLab;
+			productName = OllamaLab;
+			productReference = B5D3BBFA2C52CF9C000D49D6 /* OllamaLab.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B5D3BC0A2C52CF9D000D49D6 /* OllamaLabTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5D3BC222C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLabTests" */;
+			buildPhases = (
+				B5D3BC072C52CF9D000D49D6 /* Sources */,
+				B5D3BC082C52CF9D000D49D6 /* Frameworks */,
+				B5D3BC092C52CF9D000D49D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B5D3BC0D2C52CF9D000D49D6 /* PBXTargetDependency */,
+			);
+			name = OllamaLabTests;
+			productName = OllamaLabTests;
+			productReference = B5D3BC0B2C52CF9D000D49D6 /* OllamaLabTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B5D3BC142C52CF9D000D49D6 /* OllamaLabUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B5D3BC252C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLabUITests" */;
+			buildPhases = (
+				B5D3BC112C52CF9D000D49D6 /* Sources */,
+				B5D3BC122C52CF9D000D49D6 /* Frameworks */,
+				B5D3BC132C52CF9D000D49D6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B5D3BC172C52CF9D000D49D6 /* PBXTargetDependency */,
+			);
+			name = OllamaLabUITests;
+			productName = OllamaLabUITests;
+			productReference = B5D3BC152C52CF9D000D49D6 /* OllamaLabUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B5D3BBF22C52CF9B000D49D6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					B5D3BBF92C52CF9C000D49D6 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					B5D3BC0A2C52CF9D000D49D6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = B5D3BBF92C52CF9C000D49D6;
+					};
+					B5D3BC142C52CF9D000D49D6 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = B5D3BBF92C52CF9C000D49D6;
+					};
+				};
+			};
+			buildConfigurationList = B5D3BBF52C52CF9B000D49D6 /* Build configuration list for PBXProject "OllamaLab" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B5D3BBF12C52CF9B000D49D6;
+			productRefGroup = B5D3BBFB2C52CF9C000D49D6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B5D3BBF92C52CF9C000D49D6 /* OllamaLab */,
+				B5D3BC0A2C52CF9D000D49D6 /* OllamaLabTests */,
+				B5D3BC142C52CF9D000D49D6 /* OllamaLabUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B5D3BBF82C52CF9C000D49D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D3BC052C52CF9D000D49D6 /* Preview Assets.xcassets in Resources */,
+				B5D3BC022C52CF9D000D49D6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC092C52CF9D000D49D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC132C52CF9D000D49D6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B5D3BBF62C52CF9C000D49D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D3BC352C52D099000D49D6 /* Repository.swift in Sources */,
+				B5D3BC2A2C52D016000D49D6 /* AppState.swift in Sources */,
+				B5D3BC002C52CF9C000D49D6 /* ContentView.swift in Sources */,
+				B5D3BC302C52D05B000D49D6 /* ConversationInteractorProtocol.swift in Sources */,
+				B5D3BC3D2C52D28C000D49D6 /* Response.swift in Sources */,
+				B56691012C6EA5E200B9B1EE /* SettingsView.swift in Sources */,
+				B5D3BC402C52D2BA000D49D6 /* Conversation.swift in Sources */,
+				B5D3BC2D2C52D043000D49D6 /* Interactors.swift in Sources */,
+				B5D3BBFE2C52CF9C000D49D6 /* OllamaLabApp.swift in Sources */,
+				B5D3BC322C52D062000D49D6 /* ConversationInteractor.swift in Sources */,
+				B5EB4F3F2C6EACFD00F38CF5 /* CopyButtonView.swift in Sources */,
+				B5D3BC452C52D2F5000D49D6 /* Message.swift in Sources */,
+				B5D3BC4E2C52D8B5000D49D6 /* AssistantMessageView.swift in Sources */,
+				B5D3BC392C52D1D6000D49D6 /* Request.swift in Sources */,
+				B56690FF2C6E65A100B9B1EE /* SearchView.swift in Sources */,
+				B5D3BC372C52D0A8000D49D6 /* AIRepository.swift in Sources */,
+				B5D3BC422C52D2CF000D49D6 /* ConversationView.swift in Sources */,
+				B5EB4F432C6EAF6A00F38CF5 /* RegenerateButtonView.swift in Sources */,
+				B5D3BC502C52D8DD000D49D6 /* UserMessageView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC072C52CF9D000D49D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D3BC4C2C52D34E000D49D6 /* ResponseTests.swift in Sources */,
+				B5D3BC4A2C52D337000D49D6 /* RequestTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B5D3BC112C52CF9D000D49D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5D3BC1C2C52CF9D000D49D6 /* OllamaLabUITestsLaunchTests.swift in Sources */,
+				B5D3BC1A2C52CF9D000D49D6 /* OllamaLabUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B5D3BC0D2C52CF9D000D49D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B5D3BBF92C52CF9C000D49D6 /* OllamaLab */;
+			targetProxy = B5D3BC0C2C52CF9D000D49D6 /* PBXContainerItemProxy */;
+		};
+		B5D3BC172C52CF9D000D49D6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B5D3BBF92C52CF9C000D49D6 /* OllamaLab */;
+			targetProxy = B5D3BC162C52CF9D000D49D6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B5D3BC1D2C52CF9D000D49D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B5D3BC1E2C52CF9D000D49D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		B5D3BC202C52CF9D000D49D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OllamaLab/OllamaLab.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"OllamaLab/Preview Content\"";
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLab;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B5D3BC212C52CF9D000D49D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OllamaLab/OllamaLab.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"OllamaLab/Preview Content\"";
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLab;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B5D3BC232C52CF9D000D49D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLabTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OllamaLab.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OllamaLab";
+			};
+			name = Debug;
+		};
+		B5D3BC242C52CF9D000D49D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLabTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OllamaLab.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OllamaLab";
+			};
+			name = Release;
+		};
+		B5D3BC262C52CF9D000D49D6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLabUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OllamaLab;
+			};
+			name = Debug;
+		};
+		B5D3BC272C52CF9D000D49D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLabUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = OllamaLab;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B5D3BBF52C52CF9B000D49D6 /* Build configuration list for PBXProject "OllamaLab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5D3BC1D2C52CF9D000D49D6 /* Debug */,
+				B5D3BC1E2C52CF9D000D49D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5D3BC1F2C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLab" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5D3BC202C52CF9D000D49D6 /* Debug */,
+				B5D3BC212C52CF9D000D49D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5D3BC222C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLabTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5D3BC232C52CF9D000D49D6 /* Debug */,
+				B5D3BC242C52CF9D000D49D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B5D3BC252C52CF9D000D49D6 /* Build configuration list for PBXNativeTarget "OllamaLabUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5D3BC262C52CF9D000D49D6 /* Debug */,
+				B5D3BC272C52CF9D000D49D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B5D3BBF22C52CF9B000D49D6 /* Project object */;
+}
