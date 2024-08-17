@@ -20,6 +20,7 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     func addNewConversation(conversation: Conversation) {
         DispatchQueue.main.async {
+            self.appState.panel.hidesOnDeactivate = true
             withAnimation {
                 self.appState.conversations.insert(conversation, at: 0)
             }
@@ -28,9 +29,8 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     func newConversation() {
         DispatchQueue.main.async {
-            withAnimation {
-                self.appState.selectedConversation = Conversation()
-            }
+            self.appState.panel.hidesOnDeactivate = true
+            self.appState.selectedConversation = Conversation()
         }
     }
 
@@ -69,6 +69,10 @@ class ConversationInteractor: ConversationInteractorProtocol {
     }
 
     func sendMessage(message: Message, streaming: Bool) async {
+        guard !appState.isModelResponding else { return }
+        if !appState.conversations.contains(appState.selectedConversation) {
+            addNewConversation(conversation: appState.selectedConversation)
+        }
         DispatchQueue.main.sync {
             self.appState.selectedConversation.messages.append(message)
             self.appState.isModelResponding = true

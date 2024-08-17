@@ -45,12 +45,12 @@ struct ConversationView: View {
                     .textFieldStyle(.plain)
                     .padding(8)
                     .padding(.horizontal, 5)
-                    .onSubmit {
-                        sendMessage()
-                    }
                     .background {
                         RoundedRectangle(cornerRadius: 25)
                             .stroke()
+                    }
+                    .onSubmit {
+                        sendMessage()
                     }
                     .onChange(of: message) {
                         withAnimation(.bouncy) {
@@ -73,25 +73,31 @@ struct ConversationView: View {
         .frame(minWidth: 300, minHeight: 100)
         .toolbar {
             ToolbarItem {
+                Button(action: openPopUp) {
+                    Label("Open PopUp", systemImage: "arrow.up.forward.app")
+                }
+            }
+            ToolbarItem {
                 Button(action: newConversation) {
                     Label("Add Item", systemImage: "square.and.pencil")
                 }
                 .disabled(isConversationEmpty)
             }
         }
-        .background(.ultraThinMaterial)
     }
 
     func sendMessage() {
-        guard !appState.isModelResponding && !isMessageEmpty else { return }
-        if !appState.conversations.contains(appState.selectedConversation) {
-            interactors.conversationInteractor.addNewConversation(conversation: appState.selectedConversation)
-        }
+        guard !isMessageEmpty else { return }
         let messageToSend = message
         message = ""
         Task(priority: .userInitiated) {
             await interactors.conversationInteractor.sendMessage(message: Message(role: .user, content: messageToSend), streaming: true)
         }
+    }
+
+    func openPopUp() {
+        appState.panel!.center()
+        appState.panel!.makeKeyAndOrderFront(nil)
     }
 
     func newConversation() {

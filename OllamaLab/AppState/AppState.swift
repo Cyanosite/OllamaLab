@@ -15,4 +15,5 @@ class AppState: ObservableObject {
     @Published var selectedConversation = Conversation()
     @Published var alertMessage = ""
     @Published var isAlertShowing = false
+    var panel: FloatingPanel!
 }
