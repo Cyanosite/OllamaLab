@@ -10,15 +10,18 @@ import SwiftUI
 struct UserMessageView: View {
     var message: Message
     var body: some View {
-        Text(message.content)
-            .padding(5)
-            .padding(.horizontal, 5)
-            .background {
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(message.role == .user ? .blue : .gray)
-            }
-            .padding(.horizontal, 10)
+        HStack {
+            Spacer()
+            Text(message.content)
+                .padding(5)
+                .padding(.horizontal, 5)
+                .background {
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(message.role == .user ? .blue : .gray)
+                }
+                .padding(.horizontal, 10)
             .padding(.vertical, 5)
+        }
     }
 }
 

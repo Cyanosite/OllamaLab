@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppKit
+import MarkdownView
 
 struct AssistantMessageView: View {
     @State private var isOptionsShowing = false
@@ -22,9 +23,9 @@ struct AssistantMessageView: View {
                 Spacer()
             }
             VStack(alignment: .leading) {
-                Text(LocalizedStringKey(message.content))
+                MarkdownView(text: message.content)
+                    .tint(.gray, for: .inlineCodeBlock)
                     .textSelection(.enabled)
-                    .lineSpacing(3)
                     .padding(.bottom, 25)
             }
             .overlay(alignment: .bottom) {
@@ -49,6 +50,22 @@ struct AssistantMessageView: View {
 #Preview("Short assistant message") {
     ScrollView {
         AssistantMessageView(message: Message(role: .assistant, content: "Hi! How's your day going so far? Is there something I can help you with or would you like to chat?"), messageIndex: 0)
+        Spacer()
+    }
+}
+
+#Preview("Code assistant message") {
+    let message = """
+                  Sure, here is the code:
+                  ```swift
+                  import SwiftUI
+
+                  let message = "alma"
+                  print("alma")
+                  ```
+                  """
+    return ScrollView {
+        AssistantMessageView(message: Message(role: .assistant, content: message), messageIndex: 0)
         Spacer()
     }
 }

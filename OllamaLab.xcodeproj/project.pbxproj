@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B516F36F2C6FF4B300C54161 /* MarkdownView in Frameworks */ = {isa = PBXBuildFile; productRef = B516F36E2C6FF4B300C54161 /* MarkdownView */; };
 		B56690FF2C6E65A100B9B1EE /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56690FE2C6E65A100B9B1EE /* SearchView.swift */; };
 		B56691012C6EA5E200B9B1EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56691002C6EA5E200B9B1EE /* SettingsView.swift */; };
 		B5D3BBFE2C52CF9C000D49D6 /* OllamaLabApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D3BBFD2C52CF9C000D49D6 /* OllamaLabApp.swift */; };
@@ -88,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B516F36F2C6FF4B300C54161 /* MarkdownView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +265,9 @@
 			dependencies = (
 			);
 			name = OllamaLab;
+			packageProductDependencies = (
+				B516F36E2C6FF4B300C54161 /* MarkdownView */,
+			);
 			productName = OllamaLab;
 			productReference = B5D3BBFA2C52CF9C000D49D6 /* OllamaLab.app */;
 			productType = "com.apple.product-type.application";
@@ -335,6 +340,9 @@
 				Base,
 			);
 			mainGroup = B5D3BBF12C52CF9B000D49D6;
+			packageReferences = (
+				B516F36D2C6FF4B300C54161 /* XCRemoteSwiftPackageReference "MarkdownView" */,
+			);
 			productRefGroup = B5D3BBFB2C52CF9C000D49D6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -566,12 +574,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLab;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -594,12 +603,13 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zsomborszenyan.OllamaLab;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -719,6 +729,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B516F36D2C6FF4B300C54161 /* XCRemoteSwiftPackageReference "MarkdownView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/LiYanan2004/MarkdownView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B516F36E2C6FF4B300C54161 /* MarkdownView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B516F36D2C6FF4B300C54161 /* XCRemoteSwiftPackageReference "MarkdownView" */;
+			productName = MarkdownView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B5D3BBF22C52CF9B000D49D6 /* Project object */;
 }

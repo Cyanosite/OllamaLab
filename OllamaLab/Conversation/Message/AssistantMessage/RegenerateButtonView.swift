@@ -31,5 +31,5 @@ struct RegenerateButtonView: View {
 }
 
 #Preview {
-    RegenerateButtonView(selectedMessageIndex: 0)
+    RegenerateButtonView(selectedMessageIndex: 0).padding()
 }

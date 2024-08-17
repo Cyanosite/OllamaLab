@@ -9,14 +9,18 @@ import SwiftUI
 
 struct CopyButtonView: View {
     @State private var isHovering = false
+    @State private var iconSystemName = "doc.on.clipboard"
     var messageContent: String
 
     var body: some View {
         Button {
             NSPasteboard.general.clearContents()
+            withAnimation(.bouncy) {
+                iconSystemName = "checkmark"
+            }
             NSPasteboard.general.setString(messageContent, forType: .string)
         } label: {
-            Image(systemName: "doc.on.doc")
+            Image(systemName: iconSystemName)
         }
         .foregroundStyle(isHovering ? .white : .gray)
         .buttonStyle(PlainButtonStyle())
@@ -29,5 +33,5 @@ struct CopyButtonView: View {
 }
 
 #Preview {
-    CopyButtonView(messageContent: "Hello! How can I assist you today?")
+    CopyButtonView(messageContent: "Hello! How can I assist you today?").padding()
 }

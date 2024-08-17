@@ -43,7 +43,6 @@ struct ContentView: View {
         } detail: {
             ConversationView()
                 .environmentObject(appState)
-                .background(.thinMaterial)
         }
         .alert(appState.alertMessage, isPresented: $appState.isAlertShowing) {
             Button("Ok", role: .cancel) {}

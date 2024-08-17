@@ -23,19 +23,15 @@ struct ConversationView: View {
         VStack(spacing: 0) {
             ScrollView {
                 ScrollViewReader { value in
-                    ForEach(0..<appState.selectedConversation.messages.count, id: \.self) { index in
-                        let message = appState.selectedConversation.messages[index]
-                        if message.role == .user {
-                            HStack {
-                                Spacer()
+                    VStack {
+                        ForEach(0..<appState.selectedConversation.messages.count, id: \.self) { index in
+                            let message = appState.selectedConversation.messages[index]
+                            if message.role == .user {
                                 UserMessageView(message: message)
-                                    .tag(index)
-                            }
-                        } else {
-                            HStack {
+                                        .tag(index)
+                            } else {
                                 AssistantMessageView(message: message, messageIndex: index)
-                                    .tag(index)
-                                Spacer()
+                                        .tag(index)
                             }
                         }
                     }
@@ -44,7 +40,6 @@ struct ConversationView: View {
                     }
                 }
             }
-            //.defaultScrollAnchor(.bottom)
             HStack {
                 TextField("Message llama", text: $message)
                     .textFieldStyle(.plain)
