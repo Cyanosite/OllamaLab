@@ -4,7 +4,7 @@
 
 ### Chat
 
-![Chat feature](/ReadmeContent/output.gif)
+![Chat feature](/ReadmeContent/ChatFeature.gif)
 
 ### PopUp View
 
