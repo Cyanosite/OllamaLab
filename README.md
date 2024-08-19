@@ -6,9 +6,10 @@
 
 ![Chat feature](/ReadmeContent/ChatFeature.gif)
 
-### PopUp View
+### Companion Mode
 
-![PopUp View Feature](/ReadmeContent/PopUpViewFeature.gif)
+Companion mode can be enabled by ⌥+<kbd>Space</kbd>
+![Companion Mode](/ReadmeContent/PopUpViewFeature.gif)
 
 ### Settings View
 
