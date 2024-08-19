@@ -20,7 +20,6 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     func addNewConversation(conversation: Conversation) {
         DispatchQueue.main.async {
-            self.appState.panel.hidesOnDeactivate = true
             withAnimation {
                 self.appState.conversations.insert(conversation, at: 0)
             }
@@ -29,7 +28,6 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     func newConversation() {
         DispatchQueue.main.async {
-            self.appState.panel.hidesOnDeactivate = true
             self.appState.selectedConversation = Conversation()
         }
     }

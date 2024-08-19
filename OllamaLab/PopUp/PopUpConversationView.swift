@@ -11,11 +11,6 @@ struct PopUpConversationView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.openWindow) var openWindow
     @Environment(\.interactors) var interactors: Interactors
-    private var didSubmit: Bool {
-        get {
-            !appState.selectedConversation.messages.isEmpty
-        }
-    }
     private var isConversationEmpty: Bool {
         get {
             appState.selectedConversation.messages.isEmpty
@@ -27,16 +22,21 @@ struct PopUpConversationView: View {
         VStack {
             HStack {
                 Button {
-                    appState.panel.orderOut(nil)
+                    appState.panel.close()
                 } label: {
                     Image(systemName: "x.circle.fill")
                 }
                 .padding(5)
                 Spacer()
                 Button {
-                    appState.panel.orderOut(nil)
-                    let windowCount = NSWindow.windowNumbers()?.count
-                    if let windowCount, windowCount <= 2 {
+                    appState.panel.close()
+                    let isMainWindowOpen = {
+                        for window in NSApp.orderedWindows where ((window.identifier?.rawValue.contains("ContentView")) != nil) {
+                            return true
+                        }
+                        return false
+                    }()
+                    if !isMainWindowOpen {
                         openWindow(id: "ContentView")
                     }
                 } label: {

@@ -18,9 +18,7 @@ struct MenuBarView: View {
             openWindow(id: "ContentView")
         }
         Button("Open Chat Bar") {
-            NSApp.activate()
-            appState.panel!.center()
-            appState.panel!.makeKeyAndOrderFront(nil)
+            appState.panel.open()
         }
         .keyboardShortcut(.space, modifiers: .option)
         Divider()
