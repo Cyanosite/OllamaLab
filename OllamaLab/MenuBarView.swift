@@ -10,13 +10,22 @@ import HotKey
 
 struct MenuBarView: View {
     @Environment(\.openWindow) private var openWindow
+    @EnvironmentObject private var appState: AppState
     @State private var message = ""
 
     var body: some View {
+        Button("Open OllamaLab") {
+            openWindow(id: "ContentView")
+        }
         Button("Open Chat Bar") {
-            openWindow(id: "PopUpView")
+            NSApp.activate()
+            appState.panel!.center()
+            appState.panel!.makeKeyAndOrderFront(nil)
         }
         .keyboardShortcut(.space, modifiers: .option)
+        Divider()
+        SettingsLink()
+        .keyboardShortcut(",")
         Divider()
         Button("Quit") {
             NSApplication.shared.terminate(nil)

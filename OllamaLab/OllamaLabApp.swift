@@ -23,7 +23,7 @@ struct OllamaLabApp: App {
         let panelView = PopUpView()
             .environmentObject(appState)
             .environment(\.interactors, interactors)
-            .edgesIgnoringSafeArea(.top)
+            .ignoresSafeArea(edges: .top)
         appState.panel = FloatingPanel(hostingView: NSHostingView(rootView: panelView))
 
         hotKeyOpen.keyDownHandler = { [self] in
@@ -60,6 +60,7 @@ struct OllamaLabApp: App {
         MenuBarExtra("OllamaLab", systemImage: "star", isInserted: $showMenuBarExtra)
         {
             MenuBarView()
+                .environmentObject(appState)
         }
     }
 }
