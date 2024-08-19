@@ -9,8 +9,12 @@ import SwiftUI
 import AppKit
 
 struct PopUpView: View {
+    @AppStorage("companionResetInterval") private var companionResetInterval: CompanionResetInterval = .afterTenMinutes
+    @AppStorage("companionOpenIn") private var companionOpenIn: CompanionOpenNewChats = .inCompanion
     @EnvironmentObject var appState: AppState
+    @Environment(\.openWindow) private var openWindow
     @Environment(\.interactors) var interactors: Interactors
+    @State private var shouldEmptyConversation = false
     @State private var message = ""
     private var didSubmit: Bool {
         get {
@@ -33,15 +37,42 @@ struct PopUpView: View {
                 .frame(width: 300)
                 .onSubmit {
                     guard !message.isEmpty else { return }
+                    Task {
+                        guard companionResetInterval != .never else { return }
+                        let minutes = switch(companionResetInterval) {
+                            case .immediately:
+                                0
+                            case .afterTenMinutes:
+                                10
+                            case .afterFifteenMinutes:
+                                15
+                            case .afterThirtyMinutes:
+                                30
+                            case .never:
+                                0
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(minutes * 60))  {
+                            appState.panel.shouldEmptyConversation = true
+                        }
+                    }
                     let messageToSend = message
                     message = ""
                     Task(priority: .userInitiated) {
                         await interactors.conversationInteractor.sendMessage(message: Message(role: .user, content: messageToSend), streaming: true)
                     }
+                    if companionOpenIn == .inApp {
+                        appState.panel.close()
+                        openWindow(id: "ContentView")
+                    }
+                }
+                .onAppear {
+                    appState.panel?.reposition()
+                    appState.panel?.hidesOnDeactivate = true
                 }
         } else {
             PopUpConversationView()
                 .onAppear {
+                    appState.panel.repositionChat()
                     appState.panel.hidesOnDeactivate = false
                 }
         }
@@ -51,12 +82,15 @@ struct PopUpView: View {
 
 
 class FloatingPanel: NSPanel {
-    @EnvironmentObject var appState: AppState
+    @AppStorage("companionPosition") private var companionPosition: CompanionPosition = .bottomLeft
+    var shouldEmptyConversation = false
+    var contentViewWidth: CGFloat!
 
     init(hostingView: NSHostingView<some View>)
     {
         super.init(contentRect: hostingView.bounds, styleMask: [.nonactivatingPanel, .resizable, .closable, .fullSizeContentView, .utilityWindow, .borderless], backing: .buffered, defer: false)
         self.contentView = hostingView
+        self.contentViewWidth = hostingView.bounds.width
         self.backgroundColor = .clear
 
         // Allow the pannel to be on top of almost all other windows
@@ -83,6 +117,7 @@ class FloatingPanel: NSPanel {
         self.standardWindowButton(.closeButton)?.isHidden = true
         self.standardWindowButton(.miniaturizeButton)?.isHidden = true
         self.standardWindowButton(.zoomButton)?.isHidden = true
+        reposition()
     }
 
     // `canBecomeKey` and `canBecomeMain` are required so that text inputs inside the panel can receive focus
@@ -92,6 +127,41 @@ class FloatingPanel: NSPanel {
 
     override var canBecomeMain: Bool {
         return true
+    }
+
+    func open() {
+        NSApp.activate()
+        makeKeyAndOrderFront(nil)
+    }
+
+    func reposition() {
+        let width = NSScreen.main?.frame.width
+        let height = NSScreen.main?.frame.height
+        guard companionPosition != .rememberLast, let width, let height else {
+            center()
+            return
+        }
+        let relocationHeight = height / 5
+        let relocationWidth = switch(companionPosition) {
+            case .bottomLeft:
+                width / 8
+            case .bottomCenter:
+                width / 2 - contentViewWidth / 2
+            case .bottomRight:
+                width - (width / 8) - contentViewWidth
+            case .rememberLast:
+                CGFloat(0)
+        }
+        setFrameTopLeftPoint(NSPoint(x: relocationWidth, y: relocationHeight))
+    }
+
+    func repositionChat() {
+        guard let height = NSScreen.main?.frame.height else { return }
+        print(frame.maxY)
+        print(height / 5)
+        if frame.maxY == (height / 5).rounded(.down) {
+            setFrameTopLeftPoint(NSPoint(x: frame.minX, y: frame.minY + 450))
+        }
     }
 }
 

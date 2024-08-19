@@ -28,16 +28,18 @@ struct OllamaLabApp: App {
 
         hotKeyOpen.keyDownHandler = { [self] in
             if appState.panel.occlusionState.contains(.visible) && appState.panel.isVisible {
-                appState.panel.orderOut(nil)
+                appState.panel.close()
             } else {
-                NSApp.activate()
-                appState.panel!.center()
-                appState.panel!.makeKeyAndOrderFront(nil)
+                if appState.panel.shouldEmptyConversation {
+                    interactors.conversationInteractor.newConversation()
+                    appState.panel.shouldEmptyConversation = false
+                }
+                appState.panel.open()
             }
         }
         hotKeySpotlight.keyDownHandler = { [self] in
             if appState.panel.occlusionState.contains(.visible) && appState.panel.isVisible {
-                appState.panel.orderOut(nil)
+                appState.panel.close()
             }
         }
     }

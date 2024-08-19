@@ -96,8 +96,7 @@ struct ConversationView: View {
     }
 
     func openPopUp() {
-        appState.panel!.center()
-        appState.panel!.makeKeyAndOrderFront(nil)
+        appState.panel.open()
     }
 
     func newConversation() {

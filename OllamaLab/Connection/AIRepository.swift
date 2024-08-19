@@ -6,9 +6,16 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct AIRepository: Repository {
-    let baseURL = "http://localhost:11434/api"
+    @AppStorage("baseURL") private var _baseURL = "http://localhost:11434"
+    var baseURL: String {
+        get {
+            _baseURL + "/api"
+        }
+    }
+
     let jsonEncoder = JSONEncoder()
 
     func sendRequest(to endpoint: String, with payload: Data, handler: @escaping (Data) -> ()) {
