@@ -13,12 +13,18 @@ struct SettingView<Content: View>: View {
     @ViewBuilder let ContentView: Content
     var body: some View {
         HStack {
-            Label(setting, systemImage: systemImage)
+            HStack {
+                Image(systemName: systemImage)
+                    .font(.title3)
+                    .frame(width: 20, alignment: .center)
+                Text(setting)
+            }
+            Spacer()
             ContentView
                 .foregroundStyle(.gray)
-                .multilineTextAlignment(.trailing)
-                .textFieldStyle(.plain)
         }
+        .padding(.horizontal, 5)
+        .padding(5)
     }
 }
 
