@@ -76,7 +76,6 @@ struct PopUpView: View {
                 }
         } else {
             PopUpConversationView()
-                .modelContainer(ConversationContainer.shared)
                 .onAppear {
                     appState.panel.repositionChat()
                     appState.panel.hidesOnDeactivate = false
@@ -163,8 +162,6 @@ class FloatingPanel: NSPanel {
 
     func repositionChat() {
         guard let height = NSScreen.main?.frame.height else { return }
-        print(frame.maxY)
-        print(height / 5)
         if frame.maxY == (height / 5).rounded(.down) {
             setFrameTopLeftPoint(NSPoint(x: frame.minX, y: frame.minY + 450))
         }

@@ -71,7 +71,6 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     func updateCurrentConversationTitleHandler(data: Data) {
         let string = String(data: data, encoding: .utf8)!
-        print(string)
         if let response = try? CompletionResponse.decoder.decode(CompletionResponse.self, from: data) {
             DispatchQueue.main.sync {
                 withAnimation {
@@ -187,9 +186,6 @@ class ConversationInteractor: ConversationInteractorProtocol {
                         self.appState.isModelResponding = false
                         if currentConversation.messages!.count == 2 {
                             self.updateCurrentConversationTitle(basedOn: currentConversation.messages!.sorted(by: { $0.timestamp < $1.timestamp}))
-                        }
-                        for message in currentConversation.messages! {
-                            print(message.content)
                         }
                     }
                 }
