@@ -5,17 +5,25 @@
 //  Created by Zsombor Szenyan on 25/07/2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ConversationView: View {
     @EnvironmentObject var appState: AppState
+    @Environment(\.modelContext) private var context
     @Environment(\.interactors) var interactors: Interactors
 
     @State private var message = ""
     @State private var isMessageEmpty = true
+    @Query private var messages: [Message]
+    private var filteredMessages: [Message] {
+        get {
+            messages.filter({$0.conversation?.id == appState.selectedConversation}).sorted(by: {$0.timestamp < $1.timestamp})
+        }
+    }
     private var isConversationEmpty: Bool {
         get {
-            appState.selectedConversation.messages.isEmpty
+            return filteredMessages.isEmpty
         }
     }
 
@@ -24,8 +32,8 @@ struct ConversationView: View {
             ScrollView {
                 ScrollViewReader { value in
                     VStack {
-                        ForEach(0..<appState.selectedConversation.messages.count, id: \.self) { index in
-                            let message = appState.selectedConversation.messages[index]
+                        ForEach(0..<filteredMessages.count, id: \.self) { index in
+                            let message = filteredMessages[index]
                             if message.role == .user {
                                 UserMessageView(message: message)
                                         .tag(index)
@@ -35,8 +43,8 @@ struct ConversationView: View {
                             }
                         }
                     }
-                    .onChange(of: appState.selectedConversation.messages.last?.content) {
-                        value.scrollTo(appState.selectedConversation.messages.endIndex - 1, anchor: .bottom)
+                    .onChange(of: filteredMessages.last?.content) {
+                        value.scrollTo(filteredMessages.endIndex - 1, anchor: .bottom)
                     }
                 }
             }
@@ -91,7 +99,7 @@ struct ConversationView: View {
         let messageToSend = message
         message = ""
         Task(priority: .userInitiated) {
-            await interactors.conversationInteractor.sendMessage(message: Message(role: .user, content: messageToSend), streaming: true)
+            await interactors.conversationInteractor.sendMessage(role: .user, content: messageToSend, streaming: true)
         }
     }
 
@@ -112,13 +120,9 @@ struct SendMessageButtonStyle: ButtonStyle {
 
 #Preview {
     let appState = AppState()
-    appState.selectedConversation.messages.append(Message(role: .user, content: "Hi!"))
-    appState.selectedConversation.messages.append(Message(role: .assistant, content: "Hi, how can I help you today?"))
-    appState.selectedConversation.messages.append(Message(role: .user, content: "What's the weather like today?"))
-    appState.selectedConversation.messages.append(Message(role: .assistant, content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed nunc eros. Nullam id tincidunt nulla. Quisque nec ante vitae arcu placerat blandit. Nam hendrerit, metus feugiat congue facilisis, nulla nisl luctus massa, vitae molestie quam purus sit amet nulla. Donec elit elit, elementum sed justo fringilla, tempor ornare magna. Fusce vel porta ipsum, at varius nibh. Nullam neque diam, rutrum at tempor eu, efficitur vitae elit. Etiam congue pellentesque tellus non aliquet. Curabitur eget lacus sollicitudin, tristique tellus eget, tincidunt nunc. Maecenas non bibendum metus. Maecenas molestie, nisi in tincidunt laoreet, ipsum nisl semper tellus, id lobortis neque urna ut lectus. Etiam porta ante sit amet tempor eleifend. Vivamus turpis quam, finibus ac velit ac, iaculis tristique enim. Fusce ac velit id mi finibus pharetra. Vestibulum venenatis malesuada urna, et aliquam eros."))
-
     let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState, repository: AIRepository()))
     return ConversationView()
+        .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)
         .environment(\.interactors, interactors)
 }

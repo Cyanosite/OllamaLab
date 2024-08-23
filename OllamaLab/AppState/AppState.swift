@@ -6,13 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
+import SwiftData
 
-class AppState: ObservableObject {
-    @Published var conversations: [Conversation] = []
+final class AppState: ObservableObject {
+    @Published var selectedConversation: UUID?
     @Published var modelName: String = "llama3.1"
     @Published var isModelResponding = false
-    @Published var selectedConversation = Conversation()
     @Published var alertMessage = ""
     @Published var isAlertShowing = false
     var panel: FloatingPanel!

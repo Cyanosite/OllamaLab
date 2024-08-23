@@ -5,20 +5,24 @@
 //  Created by Zsombor Szenyan on 25/07/2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var appState: AppState
+    @Environment(\.modelContext) private var context
     @Environment(\.interactors) private var interactors: Interactors
     @State private var searchText = ""
+    @Query(
+        sort: [SortDescriptor(\Conversation.creationDate, order: .reverse)]
+    )
+    var conversations: [Conversation]
     private var filteredConversations: [Conversation] {
         get {
             if searchText.isEmpty {
-                appState.conversations
+                conversations
             } else {
-                appState.conversations.filter {
-                    $0.title.lowercased().contains(searchText.lowercased())
-                }
+                conversations.filter({$0.title.contains(searchText)})
             }
         }
     }
@@ -26,16 +30,24 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             SearchView(searchText: $searchText)
-                .disabled(appState.conversations.isEmpty)
+                .disabled(conversations.isEmpty)
             List(selection: $appState.selectedConversation) {
                 ForEach(filteredConversations) { conversation in
                     if conversation.title.isEmpty {
                         ProgressView()
-                            .tag(conversation)
+                            .tag(conversation.id as UUID?)
                             .controlSize(.small)
                     } else {
                         Text(conversation.title)
-                            .tag(conversation)
+                            .tag(conversation.id as UUID?)
+                            .swipeActions(edge: .trailing) {
+                                Button {
+                                    context.delete(conversation)
+                                } label: {
+                                    Label("Delete", systemImage: "trash.fill")
+                                        .tint(.red)
+                                }
+                            }
                     }
                 }
             }
@@ -69,11 +81,7 @@ struct ContentView: View {
 
 #Preview {
     let appState = AppState()
-    appState.conversations.append(Conversation())
-    appState.selectedConversation = appState.conversations.first!
-    appState.selectedConversation.messages.append(Message(role: .user, content: "Hi!"))
-    appState.selectedConversation.messages.append(Message(role: .assistant, content: "Hey there!"))
-    appState.selectedConversation.title = "Example message"
     return ContentView()
+        .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)
 }

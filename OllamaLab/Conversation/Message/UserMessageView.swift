@@ -27,6 +27,6 @@ struct UserMessageView: View {
 
 #Preview("Short user message") {
     ScrollView {
-        UserMessageView(message: Message(role: .user, content: "Hello, World!"))
+        UserMessageView(message: Message(conversation: Conversation(), role: .user, content: "Hello, World!"))
     }
 }

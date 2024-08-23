@@ -11,19 +11,18 @@ import HotKey
 @main
 struct OllamaLabApp: App {
     @AppStorage("showMenuBarExtra") private var showMenuBarExtra = true
-    let appState: AppState
+    let appState = AppState()
     let interactors: Interactors
     let hotKeyOpen = HotKey(key: .space, modifiers: .option)
     let hotKeySpotlight = HotKey(key: .space, modifiers: .command)
 
     init() {
-        appState = AppState()
         let conversationInteractor = ConversationInteractor(appState: appState, repository: AIRepository())
         interactors = Interactors(appState: appState, conversationInteractor: conversationInteractor)
         let panelView = PopUpView()
+            .modelContainer(ConversationContainer.shared)
             .environmentObject(appState)
             .environment(\.interactors, interactors)
-            .ignoresSafeArea(edges: .top)
         appState.panel = FloatingPanel(hostingView: NSHostingView(rootView: panelView))
 
         hotKeyOpen.keyDownHandler = { [self] in
@@ -48,11 +47,13 @@ struct OllamaLabApp: App {
         WindowGroup("ContentView", id: "ContentView") {
             ContentView()
         }
+        .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)
         .environment(\.interactors, interactors)
 
         Window("PopUpView", id: "PopUpView") {
             PopUpView()
+                .modelContainer(ConversationContainer.shared)
                 .environmentObject(appState)
                 .environment(\.interactors, interactors)
         }

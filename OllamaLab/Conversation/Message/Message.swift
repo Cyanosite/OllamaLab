@@ -6,13 +6,16 @@
 //
 
 import Foundation
-import SwiftUI
+import SwiftData
 
 enum Role: String, Codable, Hashable {
     case user, assistant
 }
 
-struct Message: Codable, Hashable {
+@Model
+final class Message: Encodable, Hashable {
+    @Attribute(.unique) var id: UUID
+    var conversation: Conversation?
     var timestamp: Date
     var role: Role
     var content: String
@@ -23,17 +26,20 @@ struct Message: Codable, Hashable {
         case content
     }
 
-    init(timestamp: Date = .now, role: Role, content: String = "") {
+    init(id: UUID = UUID(), conversation: Conversation, timestamp: Date = .now, role: Role, content: String = "") {
+        self.id = id
+        self.conversation = conversation
         self.timestamp = timestamp
         self.content = content
         self.role = role
     }
 
-    init(from decoder: any Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        timestamp = .now
-        role = try values.decode(Role.self, forKey: .role)
-        content = try values.decode(String.self, forKey: .content)
+    init(id: UUID = UUID(), conversation: Conversation, message: DecodedMessage) {
+        self.id = id
+        self.conversation = conversation
+        self.timestamp = message.timestamp
+        self.role = message.role
+        self.content = message.content
     }
 
     func encode(to encoder: any Encoder) throws {

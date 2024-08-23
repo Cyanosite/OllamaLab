@@ -16,9 +16,3 @@ struct Request: Encodable {
         self.stream = stream
     }
 }
-
-struct CompletionRequest: Encodable {
-    let model: String
-    let prompt: String
-    let stream: Bool = false
-}
