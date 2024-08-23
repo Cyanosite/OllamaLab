@@ -6,13 +6,22 @@
 //
 
 import Foundation
-import SwiftUI
+import SwiftData
 
-final class Conversation: ObservableObject, Identifiable, Hashable {
-    var id = UUID()
-    var creationDate: Date = .now
-    @Published var title: String = ""
-    @Published var messages: [Message] = []
+@Model
+final class Conversation: Identifiable, Hashable {
+    @Attribute(.unique) var id: UUID
+    var creationDate: Date
+    var title: String
+    @Relationship(deleteRule: .cascade, inverse: \Message.conversation)
+    var messages: [Message]?
+
+    init(id: UUID = UUID(), creationDate: Date = .now, title: String = "", messages: [Message]? = nil) {
+        self.id = id
+        self.creationDate = creationDate
+        self.title = title
+        self.messages = messages
+    }
 
     static func == (lhs: Conversation, rhs: Conversation) -> Bool {
         lhs.id == rhs.id

@@ -10,7 +10,7 @@ import Foundation
 struct Response: Decodable {
     let model: String
     let creationDate: Date
-    let message: Message
+    let message: DecodedMessage
     let done: Bool
     let duration: Duration?
 
@@ -31,7 +31,7 @@ struct Response: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         model = try values.decode(String.self, forKey: .model)
         creationDate = try values.decode(Date.self, forKey: .created_at)
-        message = try values.decode(Message.self, forKey: .message)
+        message = try values.decode(DecodedMessage.self, forKey: .message)
         done = try values.decode(Bool.self, forKey: .done)
         if let totalDuration = try values.decodeIfPresent(UInt64.self, forKey: .total_duration) {
             duration = .nanoseconds(totalDuration)

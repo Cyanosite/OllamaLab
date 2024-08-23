@@ -5,8 +5,9 @@
 //  Created by Zsombor Szenyan on 17/08/2024.
 //
 
-import SwiftUI
 import AppKit
+import SwiftData
+import SwiftUI
 
 struct PopUpView: View {
     @AppStorage("companionResetInterval") private var companionResetInterval: CompanionResetInterval = .afterTenMinutes
@@ -18,7 +19,11 @@ struct PopUpView: View {
     @State private var message = ""
     private var didSubmit: Bool {
         get {
-            !appState.selectedConversation.messages.isEmpty
+            let conversations = try? ConversationContainer.shared.mainContext.fetch(FetchDescriptor<Conversation>())
+            guard let messages = conversations?.first(where: { $0.id == appState.selectedConversation})?.messages else {
+                return false
+            }
+            return !messages.isEmpty
         }
     }
 
@@ -58,7 +63,7 @@ struct PopUpView: View {
                     let messageToSend = message
                     message = ""
                     Task(priority: .userInitiated) {
-                        await interactors.conversationInteractor.sendMessage(message: Message(role: .user, content: messageToSend), streaming: true)
+                        await interactors.conversationInteractor.sendMessage(role: .user, content: messageToSend, streaming: true)
                     }
                     if companionOpenIn == .inApp {
                         appState.panel.close()
@@ -71,6 +76,7 @@ struct PopUpView: View {
                 }
         } else {
             PopUpConversationView()
+                .modelContainer(ConversationContainer.shared)
                 .onAppear {
                     appState.panel.repositionChat()
                     appState.panel.hidesOnDeactivate = false

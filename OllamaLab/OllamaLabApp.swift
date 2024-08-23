@@ -48,11 +48,13 @@ struct OllamaLabApp: App {
         WindowGroup("ContentView", id: "ContentView") {
             ContentView()
         }
+        .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)
         .environment(\.interactors, interactors)
 
         Window("PopUpView", id: "PopUpView") {
             PopUpView()
+                .modelContainer(ConversationContainer.shared)
                 .environmentObject(appState)
                 .environment(\.interactors, interactors)
         }

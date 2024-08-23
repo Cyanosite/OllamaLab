@@ -49,7 +49,7 @@ struct AIRepository: Repository {
         sendRequest(to: "/chat", with: requestJSON, handler: handler)
     }
 
-    func sendRequestStreaming(to endpoint: String, with payload: Data, handler: @escaping (String) -> ()) async throws {
+    func sendRequestStreaming(to endpoint: String, with payload: Data, handler: @escaping (UUID, String) async -> (), messageID: UUID) async throws {
         let url = URL(string: "\(baseURL)/chat")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -57,16 +57,14 @@ struct AIRepository: Repository {
         request.httpBody = payload
         let (stream, _) = try await URLSession.shared.bytes(for: request)
         for try await line in stream.lines {
-            DispatchQueue.global(qos: .userInteractive).async {
-                handler(line)
-            }
+            await handler(messageID, line)
         }
     }
 
-    func generateResponseStreaming(model: String, with history: [Message], handler: @escaping (String) -> ()) async throws {
+    func generateResponseStreaming(model: String, with history: [Message], handler: @escaping (UUID, String) async -> (), messageID: UUID) async throws {
         let request = Request(model: model, messages: history)
         let requestJSON = try jsonEncoder.encode(request)
-        try await sendRequestStreaming(to: "/chat", with: requestJSON, handler: handler)
+        try await sendRequestStreaming(to: "/chat", with: requestJSON, handler: handler, messageID: messageID)
     }
 
     func sendCompletionRequest(with payload: Data, handler: @escaping (Data) -> ()) {

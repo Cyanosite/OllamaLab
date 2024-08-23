@@ -5,15 +5,22 @@
 //  Created by Zsombor Szenyan on 17/08/2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct PopUpConversationView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.openWindow) var openWindow
     @Environment(\.interactors) var interactors: Interactors
+    @Query private var messages: [Message]
+    private var filteredMessages: [Message] {
+        get {
+            messages.filter { $0.conversation?.id == appState.selectedConversation }.sorted(by: { $0.timestamp < $1.timestamp })
+        }
+    }
     private var isConversationEmpty: Bool {
         get {
-            appState.selectedConversation.messages.isEmpty
+            filteredMessages.isEmpty
         }
     }
     @State private var isHovering = false
