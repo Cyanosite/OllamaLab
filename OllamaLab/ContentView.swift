@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var appState: AppState
+    @Environment(\.modelContext) private var context
     @Environment(\.interactors) private var interactors: Interactors
     @State private var searchText = ""
     @Query(
@@ -39,6 +40,14 @@ struct ContentView: View {
                     } else {
                         Text(conversation.title)
                             .tag(conversation.id as UUID?)
+                            .swipeActions(edge: .trailing) {
+                                Button {
+                                    context.delete(conversation)
+                                } label: {
+                                    Label("Delete", systemImage: "trash.fill")
+                                        .tint(.red)
+                                }
+                            }
                     }
                 }
             }
