@@ -87,7 +87,7 @@ struct PopUpConversationViewWrapper: View {
 
 #Preview {
     let appState = AppState()
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState, repository: AIRepository()))
+    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     return PopUpConversationViewWrapper()
         .environmentObject(appState)
         .environment(\.interactors, interactors)

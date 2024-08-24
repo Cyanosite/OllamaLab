@@ -17,7 +17,7 @@ struct OllamaLabApp: App {
     let hotKeySpotlight = HotKey(key: .space, modifiers: .command)
 
     init() {
-        let conversationInteractor = ConversationInteractor(appState: appState, repository: AIRepository())
+        let conversationInteractor = ConversationInteractor(appState: appState)
         interactors = Interactors(appState: appState, conversationInteractor: conversationInteractor)
         let panelView = PopUpView()
             .modelContainer(ConversationContainer.shared)

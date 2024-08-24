@@ -65,7 +65,7 @@ struct ConversationView: View {
                             isMessageEmpty = message.isEmpty
                         }
                     }
-                if !appState.isModelResponding && !isMessageEmpty {
+                if !isMessageEmpty && !appState.isModelResponding {
                     Button {
                         sendMessage()
                     } label: {
@@ -95,7 +95,7 @@ struct ConversationView: View {
     }
 
     func sendMessage() {
-        guard !isMessageEmpty else { return }
+        guard !isMessageEmpty && !appState.isModelResponding else { return }
         let messageToSend = message
         message = ""
         Task(priority: .userInitiated) {
@@ -120,7 +120,7 @@ struct SendMessageButtonStyle: ButtonStyle {
 
 #Preview {
     let appState = AppState()
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState, repository: AIRepository()))
+    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     return ConversationView()
         .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)

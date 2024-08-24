@@ -8,7 +8,6 @@
 import Foundation
 
 protocol ConversationInteractorProtocol {
-    func addNewConversation(conversation: Conversation)
     func newConversation()
     func sendMessage(role: Role, content: String, streaming: Bool) async
     func regenerateMessage(at selectedMessageIndex: Int, streaming: Bool) async

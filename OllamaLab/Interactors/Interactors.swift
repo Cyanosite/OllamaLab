@@ -15,7 +15,7 @@ struct Interactors: EnvironmentKey {
 
     static let defaultValue: Interactors = {
         let appState = AppState()
-        return Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState, repository: AIRepository()))
+        return Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     }()
 }
 

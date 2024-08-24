@@ -12,7 +12,6 @@ import SwiftUI
 class ConversationInteractor: ConversationInteractorProtocol {
     let appState: AppState
     let repository: Repository
-    let dispatchGroup = DispatchGroup()
     @MainActor var conversations: [Conversation] {
         get {
             do {
@@ -25,9 +24,9 @@ class ConversationInteractor: ConversationInteractorProtocol {
     }
     @MainActor var context = ConversationContainer.shared.mainContext
 
-    init(appState: AppState, repository: Repository) {
+    init(appState: AppState) {
         self.appState = appState
-        self.repository = repository
+        self.repository = AIRepository(appState: appState)
     }
 
     @MainActor func getCurrentConversation() -> Conversation? {
@@ -39,23 +38,23 @@ class ConversationInteractor: ConversationInteractorProtocol {
         return try? ConversationContainer.shared.mainContext.fetch(fetchDescriptor).first
     }
 
-    func addNewConversation(conversation: Conversation) {
-        DispatchQueue.main.async {
-            withAnimation {
-                ConversationContainer.shared.mainContext.insert(conversation)
-            }
+    @MainActor
+    func addNewConversation() async {
+        withAnimation {
+            let conversation = Conversation()
+            context.insert(conversation)
+            appState.selectedConversation = conversation.id
         }
     }
 
+    @MainActor
     func newConversation() {
-        DispatchQueue.main.async {
-            self.appState.selectedConversation = nil
-        }
+        self.appState.selectedConversation = nil
     }
 
-    func updateCurrentConversationTitle(basedOn messages: [Message]) {
+    func updateCurrentConversationTitle(basedOn messages: [Message]) async {
         guard messages.count >= 2 else {
-            showErrorMessage()
+            await showErrorMessage(message: "Conversation should already contain at least 2 messages, invalid state")
             return
         }
         let prompt = """
@@ -69,154 +68,140 @@ class ConversationInteractor: ConversationInteractorProtocol {
         try? repository.generateCompletion(model: appState.modelName, with: prompt, handler: updateCurrentConversationTitleHandler)
     }
 
-    func updateCurrentConversationTitleHandler(data: Data) {
-        let string = String(data: data, encoding: .utf8)!
-        if let response = try? CompletionResponse.decoder.decode(CompletionResponse.self, from: data) {
-            DispatchQueue.main.sync {
-                withAnimation {
-                    getCurrentConversation()!.title = response.response.capitalized
-                }
-            }
+    func updateCurrentConversationTitleHandler(data: Data) async {
+        if let title = try? CompletionResponse.decoder.decode(CompletionResponse.self, from: data).response.capitalized {
+            await changeCurrentConversationTitle(to: title)
+        }
+    }
+
+    @MainActor
+    func changeCurrentConversationTitle(to title: String) async {
+        guard let currentConversation = getCurrentConversation() else {
+            showErrorMessage()
+            return
+        }
+        withAnimation {
+            currentConversation.title = title
         }
     }
 
     func sendMessage(role: Role, content: String, streaming: Bool) async {
-        guard !appState.isModelResponding else {
-            showErrorMessage()
-            return
-        }
-        if await !conversations.contains(where: { $0.id == appState.selectedConversation}) {
-            DispatchQueue.main.sync {
-                MainActor.assumeIsolated {
-                    let conversation = Conversation()
-                    context.insert(conversation)
-                    appState.selectedConversation = conversation.id
-                }
-            }
-        }
-        guard let selectedConversation = appState.selectedConversation else {
-            showErrorMessage()
-            return
+        if await !conversations.contains(where: { $0.id == appState.selectedConversation }) {
+            await addNewConversation()
         }
 
-        DispatchQueue.main.sync {
-            guard var selectedConversation = getCurrentConversation() else {
-                showErrorMessage()
-                return
-            }
-            let message = Message(conversation: selectedConversation, role: role, content: content)
+        await MainActor.run {
+            self.appState.isModelResponding = true
+        }
+        let _ = await addMessageToSelectedConversation(role: role, content: content)
+        await sendGenerateResponseRequest(streaming: streaming)
+    }
+
+    /// This returns the id of the created message used in sendGenerateResponseRequest
+    /// where we need to pass the ID of the message to be modified by the streaming response.
+    @MainActor
+    func addMessageToSelectedConversation(role: Role, content: String) async -> UUID? {
+        guard let selectedConversation = getCurrentConversation() else {
+            showErrorMessage()
+            return nil
+        }
+        let message = Message(conversation: selectedConversation, role: role, content: content)
+        withAnimation {
             if selectedConversation.messages != nil {
                 selectedConversation.messages!.append(message)
             } else {
                 selectedConversation.messages = [message]
             }
-            self.appState.isModelResponding = true
         }
-        await sendGenerateResponseRequest(streaming: streaming)
+        return message.id
     }
 
     func sendGenerateResponseRequest(streaming: Bool) async {
+        guard let history = await getCurrentConversation()?.messages?.sorted(by: {$0.timestamp < $1.timestamp}) else {
+            await showErrorMessage(message: "Conversation should already contain messages, invalid state")
+            return
+        }
         do {
-            guard let history = await getCurrentConversation()?.messages?.sorted(by: {$0.timestamp < $1.timestamp}) else {
-                showErrorMessage()
-                return
-            }
             if streaming {
-                DispatchQueue.main.sync {
-                    MainActor.assumeIsolated {
-                        guard let currentConversation = getCurrentConversation() else {
-                            return
-                        }
-                        let message = Message(conversation: currentConversation, role: .assistant)
-                        currentConversation.messages?.append(message)
-                        Task {
-                            try await repository.generateResponseStreaming(model: appState.modelName, with: history, handler: handleSendMessageResponseStreaming, messageID: message.id)
-                        }
-                    }
+                guard let messageID = await addMessageToSelectedConversation(role: .assistant, content: "") else {
+                    await showErrorMessage()
+                    return
                 }
+                try await repository.generateResponseStreaming(model: appState.modelName, with: history, handler: handleSendMessageResponseStreaming, messageID: messageID)
             } else {
                 try repository.generateResponse(model: appState.modelName, with: history, handler: handleSendMessageResponse)
             }
         } catch {
-            DispatchQueue.main.async {
-                self.appState.alertMessage = "Ollama is currently unavailable"
-                self.appState.isAlertShowing = true
-                self.appState.isModelResponding = false
-            }
+            await showErrorMessage(message: "Ollama is currently unavailable")
         }
     }
 
-    func handleSendMessageResponse(data: Data) {
-        if let response = try? Response.decoder.decode(Response.self, from: data) {
-            DispatchQueue.main.sync {
-                MainActor.assumeIsolated {
-                    withAnimation {
-                        guard let currentConversation = getCurrentConversation() else {
-                            showErrorMessage()
-                            return
-                        }
-                        guard var messages = currentConversation.messages else {
-                            showErrorMessage()
-                            return
-                        }
-                        messages.append(Message(conversation: currentConversation, message: response.message))
-                    }
-                }
-            }
+    func handleSendMessageResponse(data: Data) async {
+        if let message = try? Response.decoder.decode(Response.self, from: data).message {
+            let _ = await addMessageToSelectedConversation(role: message.role, content: message.content)
+        } else {
+            await showErrorMessage(message: "Unable to decode assistant response.")
         }
-        DispatchQueue.main.sync {
+        await MainActor.run {
             self.appState.isModelResponding = false
         }
     }
 
     func handleSendMessageResponseStreaming(id: UUID, line: String) async {
         if let jsonData = line.data(using: .utf8), let response = try? Response.decoder.decode(Response.self, from: jsonData) {
-            DispatchQueue.main.sync {
-                MainActor.assumeIsolated {
-                    guard let message = try? ConversationContainer.shared.mainContext.fetch(FetchDescriptor<Message>(predicate: #Predicate { $0.id == id })).first else {
-                        showErrorMessage()
-                        return
-                    }
-                    message.content += response.message.content
-                    if response.done {
-                        guard let currentConversation = getCurrentConversation() else {
-                            showErrorMessage()
-                            return
-                        }
-                        self.appState.isModelResponding = false
-                        if currentConversation.messages!.count == 2 {
-                            self.updateCurrentConversationTitle(basedOn: currentConversation.messages!.sorted(by: { $0.timestamp < $1.timestamp}))
-                        }
-                    }
-                }
+            await updateMessageContent(id: id, with: response)
+        } else {
+            await showErrorMessage(message: "Error while fetching assistant response")
+        }
+    }
+
+    @MainActor
+    func updateMessageContent(id: UUID, with response: Response) async {
+        guard let message = try? context.fetch(FetchDescriptor<Message>(predicate: #Predicate { $0.id == id })).first else {
+            showErrorMessage(message: "Message could not be fetched.")
+            return
+        }
+        message.content += response.message.content
+        if response.done {
+            guard let currentConversation = getCurrentConversation() else {
+                showErrorMessage(message: "No conversation selected on action requiring a selected conversation")
+                return
+            }
+            self.appState.isModelResponding = false
+            if currentConversation.messages!.count == 2 {
+                let history = currentConversation.messages!.sorted(by: { $0.timestamp < $1.timestamp})
+                await self.updateCurrentConversationTitle(basedOn: history)
             }
         }
     }
 
     func regenerateMessage(at selectedMessageIndex: Int, streaming: Bool) async {
-        DispatchQueue.main.sync {
-            MainActor.assumeIsolated {
-                withAnimation {
-                    guard let currentConversation = getCurrentConversation() else {
-                        showErrorMessage()
-                        return
-                    }
-                    guard getCurrentConversation()?.messages != nil else {
-                        showErrorMessage()
-                        return
-                    }
-                    let firstToDeleteTimestamp = currentConversation.messages!.sorted(by: { $0.timestamp < $1.timestamp })[selectedMessageIndex].timestamp
-                    currentConversation.messages!.removeAll(where: { firstToDeleteTimestamp <= $0.timestamp})
-                    self.appState.isModelResponding = true
-                }
-            }
-        }
+        await deleteMessagesStarting(at: selectedMessageIndex)
         await sendGenerateResponseRequest(streaming: streaming)
     }
 
-    func showErrorMessage() {
-        DispatchQueue.main.async {
-            self.appState.alertMessage = "An error has occurred"
+    @MainActor
+    func deleteMessagesStarting(at messageIndex: Int) async {
+        withAnimation {
+            guard let currentConversation = getCurrentConversation() else {
+                showErrorMessage(message: "Trying to regenerate messages without a conversation selected, impossible state.")
+                return
+            }
+            guard currentConversation.messages != nil else {
+                showErrorMessage(message: "Trying to regenerate message on conversation with no messages, impossible state.")
+                return
+            }
+            let sortedMessages = currentConversation.messages!.sorted(by: { $0.timestamp < $1.timestamp })
+            let firstToDeleteTimestamp = sortedMessages[messageIndex].timestamp
+            currentConversation.messages!.removeAll(where: { firstToDeleteTimestamp <= $0.timestamp})
+            self.appState.isModelResponding = true
+        }
+    }
+
+    @MainActor
+    func showErrorMessage(message: String = "") {
+        withAnimation {
+            self.appState.alertMessage = message.isEmpty ? "An error has occurred" : message
             self.appState.isAlertShowing = true
             self.appState.isModelResponding = false
         }

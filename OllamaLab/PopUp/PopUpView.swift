@@ -19,11 +19,11 @@ struct PopUpView: View {
     @State private var message = ""
     private var didSubmit: Bool {
         get {
-            let conversations = try? ConversationContainer.shared.mainContext.fetch(FetchDescriptor<Conversation>())
-            guard let messages = conversations?.first(where: { $0.id == appState.selectedConversation})?.messages else {
+            let messages = try? ConversationContainer.shared.mainContext.fetch(FetchDescriptor<Message>())
+            guard let id = appState.selectedConversation else {
                 return false
             }
-            return !messages.isEmpty
+            return messages?.contains(where: { $0.id == id }) != nil
         }
     }
 
@@ -170,7 +170,7 @@ class FloatingPanel: NSPanel {
 
 #Preview {
     let appState = AppState()
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState, repository: AIRepository()))
+    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     return PopUpView()
         .environmentObject(appState)
         .environment(\.interactors, interactors)
