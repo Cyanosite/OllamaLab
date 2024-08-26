@@ -48,15 +48,33 @@ struct ConversationView: View {
                     }
                 }
             }
-            HStack {
-                TextField("Message llama", text: $message)
-                    .textFieldStyle(.plain)
+            HStack(alignment: .bottom, spacing: 0) {
+                TextEditor(text: $message)
+                    .textEditorStyle(.plain)
+                    .font(.system(size: 14))
+                    .fontWeight(.regular)
+                    .lineLimit(10)
                     .padding(8)
                     .padding(.horizontal, 5)
                     .background {
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke()
+                        ZStack {
+                            HStack {
+                                if message.isEmpty {
+                                    Text("Message OllamaLab")
+                                        .foregroundStyle(.gray)
+                                        .font(.headline)
+                                        .fontWeight(.regular)
+                                        .padding(8)
+                                        .padding(.horizontal, 10)
+                                }
+                                Spacer()
+                            }
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke()
+                        }
                     }
+                    .frame(minHeight: 25, maxHeight: 200)
+                    .fixedSize(horizontal: false, vertical: true)
                     .onSubmit {
                         sendMessage()
                     }
@@ -74,6 +92,7 @@ struct ConversationView: View {
                     }
                     .buttonStyle(SendMessageButtonStyle())
                     .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+                    .padding(4)
                 }
             }
             .padding(10)
