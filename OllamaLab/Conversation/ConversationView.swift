@@ -49,37 +49,25 @@ struct ConversationView: View {
                 }
             }
             HStack(alignment: .bottom, spacing: 0) {
-                TextEditor(text: $message)
-                    .textEditorStyle(.plain)
+                TextField("Message OllamaLab", text: $message, axis: .vertical)
+                    .textFieldStyle(.plain)
+                    .lineLimit(7)
                     .font(.system(size: 14))
                     .fontWeight(.regular)
                     .lineLimit(10)
                     .padding(8)
                     .padding(.horizontal, 5)
                     .background {
-                        ZStack {
-                            HStack {
-                                if message.isEmpty {
-                                    Text("Message OllamaLab")
-                                        .foregroundStyle(.gray)
-                                        .font(.headline)
-                                        .fontWeight(.regular)
-                                        .padding(8)
-                                        .padding(.horizontal, 10)
-                                }
-                                Spacer()
-                            }
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke()
-                        }
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke()
                     }
-                    .frame(minHeight: 25, maxHeight: 200)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .onAppear(perform: addKeyboardEventListener)
                     .onChange(of: message) {
                         withAnimation(.bouncy) {
                             isMessageEmpty = message.isEmpty
                         }
+                    }
+                    .onSubmit {
+                        sendMessage()
                     }
                 if !isMessageEmpty && !appState.isModelResponding {
                     Button {
@@ -108,17 +96,6 @@ struct ConversationView: View {
                 }
                 .disabled(isConversationEmpty)
             }
-        }
-    }
-
-    func addKeyboardEventListener() {
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
-            let key = Int(event.keyCode)
-            if (key == 0x24 || key == 0x4C) && !event.modifierFlags.contains(.shift) {
-                sendMessage()
-                return nil
-            }
-            return event
         }
     }
 
