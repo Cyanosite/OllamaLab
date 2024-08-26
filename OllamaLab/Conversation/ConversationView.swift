@@ -75,9 +75,7 @@ struct ConversationView: View {
                     }
                     .frame(minHeight: 25, maxHeight: 200)
                     .fixedSize(horizontal: false, vertical: true)
-                    .onSubmit {
-                        sendMessage()
-                    }
+                    .onAppear(perform: addKeyboardEventListener)
                     .onChange(of: message) {
                         withAnimation(.bouncy) {
                             isMessageEmpty = message.isEmpty
@@ -113,10 +111,23 @@ struct ConversationView: View {
         }
     }
 
+    func addKeyboardEventListener() {
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+            let key = Int(event.keyCode)
+            if (key == 0x24 || key == 0x4C) && !event.modifierFlags.contains(.shift) {
+                sendMessage()
+                return nil
+            }
+            return event
+        }
+    }
+
     func sendMessage() {
         guard !isMessageEmpty && !appState.isModelResponding else { return }
         let messageToSend = message
-        message = ""
+        withAnimation {
+            message = ""
+        }
         Task(priority: .userInitiated) {
             await interactors.conversationInteractor.sendMessage(role: .user, content: messageToSend, streaming: true)
         }
