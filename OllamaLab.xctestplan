@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "540F09C5-0A08-45A8-9BD8-245B23A60D7D",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:OllamaLab.xcodeproj",
+      "identifier" : "B5D3BBF92C52CF9C000D49D6",
+      "name" : "OllamaLab"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:OllamaLab.xcodeproj",
+        "identifier" : "B5D3BC0A2C52CF9D000D49D6",
+        "name" : "OllamaLabTests"
+      }
+    }
+  ],
+  "version" : 1
+}

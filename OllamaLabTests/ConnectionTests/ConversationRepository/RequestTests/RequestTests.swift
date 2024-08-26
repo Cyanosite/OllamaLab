@@ -11,7 +11,7 @@ import XCTest
 final class RequestTests: XCTestCase {
     let modelName = "llama3"
     let messages = [
-        Message(role: .user, content: "hello"),
+        Message(conversation: nil, role: .user, content: "hello"),
     ]
     let encoder = {
         let encoder = JSONEncoder()

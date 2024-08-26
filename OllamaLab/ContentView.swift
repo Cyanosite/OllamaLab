@@ -62,12 +62,11 @@ struct ContentView: View {
         .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                Menu(appState.modelName) {
-                    Button("llama3.1") {
-                        setModel(modelName: "llama3.1")
-                    }
-                    Button("llama3") {
-                        setModel(modelName: "llama3")
+                Menu(appState.selectedModel) {
+                    ForEach(appState.models, id: \.self) { modelName in
+                        Button(modelName) {
+                            setModel(modelName: modelName)
+                        }
                     }
                 }
             }
@@ -75,7 +74,7 @@ struct ContentView: View {
     }
 
     private func setModel(modelName: String) {
-        appState.modelName = modelName
+        appState.selectedModel = modelName
     }
 }
 

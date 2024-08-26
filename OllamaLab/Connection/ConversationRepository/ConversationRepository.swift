@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-final class AIRepository: Repository {
+final class ConversationRepository: ConversationRepositoryProtocol {
     @AppStorage("baseURL") private var _baseURL = "http://localhost:11434"
     var baseURL: String {
         get {
@@ -124,7 +124,7 @@ final class AIRepository: Repository {
     }
 
     func generateCompletion(model: String, with prompt: String, handler: @escaping (Data) async -> ()) throws {
-        let request = CompletionRequest(model: model, prompt: prompt)
+        let request = CompletionRequest(model: model, prompt: prompt, stream: false)
         let requestJSON = try jsonEncoder.encode(request)
         sendCompletionRequest(with: requestJSON, handler: handler)
     }

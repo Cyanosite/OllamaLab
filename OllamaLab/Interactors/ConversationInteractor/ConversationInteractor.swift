@@ -11,7 +11,7 @@ import SwiftUI
 
 class ConversationInteractor: ConversationInteractorProtocol {
     let appState: AppState
-    let repository: Repository
+    let repository: ConversationRepositoryProtocol
     @MainActor var conversations: [Conversation] {
         get {
             do {
@@ -26,7 +26,7 @@ class ConversationInteractor: ConversationInteractorProtocol {
 
     init(appState: AppState) {
         self.appState = appState
-        self.repository = AIRepository(appState: appState)
+        self.repository = ConversationRepository(appState: appState)
     }
 
     @MainActor func getCurrentConversation() -> Conversation? {
@@ -65,7 +65,7 @@ class ConversationInteractor: ConversationInteractorProtocol {
         model response/ \(messages[messages.endIndex - 2].content)
         title:
         """
-        try? repository.generateCompletion(model: appState.modelName, with: prompt, handler: updateCurrentConversationTitleHandler)
+        try? repository.generateCompletion(model: appState.selectedModel, with: prompt, handler: updateCurrentConversationTitleHandler)
     }
 
     func updateCurrentConversationTitleHandler(data: Data) async {
@@ -127,9 +127,9 @@ class ConversationInteractor: ConversationInteractorProtocol {
                     await showErrorMessage()
                     return
                 }
-                try await repository.generateResponseStreaming(model: appState.modelName, with: history, handler: handleSendMessageResponseStreaming, messageID: messageID)
+                try await repository.generateResponseStreaming(model: appState.selectedModel, with: history, handler: handleSendMessageResponseStreaming, messageID: messageID)
             } else {
-                try repository.generateResponse(model: appState.modelName, with: history, handler: handleSendMessageResponse)
+                try repository.generateResponse(model: appState.selectedModel, with: history, handler: handleSendMessageResponse)
             }
         } catch {
             await showErrorMessage(message: "Ollama is currently unavailable")

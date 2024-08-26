@@ -150,9 +150,7 @@ struct SendMessageButtonStyle: ButtonStyle {
 
 #Preview {
     let appState = AppState()
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     return ConversationView()
         .modelContainer(ConversationContainer.shared)
         .environmentObject(appState)
-        .environment(\.interactors, interactors)
 }

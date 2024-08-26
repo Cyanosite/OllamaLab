@@ -8,5 +8,11 @@
 struct CompletionRequest: Encodable {
     let model: String
     let prompt: String
-    let stream: Bool = false
+    let stream: Bool?
+
+    init(model: String, prompt: String, stream: Bool? = nil) {
+        self.model = model
+        self.prompt = prompt
+        self.stream = stream
+    }
 }

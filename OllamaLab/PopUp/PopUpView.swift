@@ -170,10 +170,8 @@ class FloatingPanel: NSPanel {
 
 #Preview {
     let appState = AppState()
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
     return PopUpView()
         .environmentObject(appState)
-        .environment(\.interactors, interactors)
 }
 
 

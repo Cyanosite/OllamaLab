@@ -26,7 +26,7 @@ final class Message: Encodable, Hashable {
         case content
     }
 
-    init(id: UUID = UUID(), conversation: Conversation, timestamp: Date = .now, role: Role, content: String = "") {
+    init(id: UUID = UUID(), conversation: Conversation?, timestamp: Date = .now, role: Role, content: String = "") {
         self.id = id
         self.conversation = conversation
         self.timestamp = timestamp

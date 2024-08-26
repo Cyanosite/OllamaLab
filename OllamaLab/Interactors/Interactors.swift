@@ -12,10 +12,11 @@ import SwiftData
 struct Interactors: EnvironmentKey {
     let appState: AppState
     let conversationInteractor: ConversationInteractorProtocol
+    let modelsInteractor: ModelsInteractorProtocol
 
     static let defaultValue: Interactors = {
         let appState = AppState()
-        return Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState))
+        return Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState), modelsInteractor: ModelsInteractor(appState: appState))
     }()
 }
 

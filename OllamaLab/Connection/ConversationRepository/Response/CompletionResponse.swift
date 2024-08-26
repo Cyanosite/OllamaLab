@@ -11,6 +11,7 @@ struct CompletionResponse: Decodable {
     let model: String
     let creationDate: Date
     let response: String
+    let done: Bool
     let duration: Duration?
 
     private enum CodingKeys: String, CodingKey {
@@ -31,6 +32,7 @@ struct CompletionResponse: Decodable {
         model = try values.decode(String.self, forKey: .model)
         creationDate = try values.decode(Date.self, forKey: .created_at)
         response = try values.decode(String.self, forKey: .response)
+        done = try values.decode(Bool.self, forKey: .done)
         if let totalDuration = try values.decodeIfPresent(UInt64.self, forKey: .total_duration) {
             duration = .nanoseconds(totalDuration)
         } else {

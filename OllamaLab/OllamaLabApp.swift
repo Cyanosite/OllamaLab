@@ -18,7 +18,7 @@ struct OllamaLabApp: App {
 
     init() {
         let conversationInteractor = ConversationInteractor(appState: appState)
-        interactors = Interactors(appState: appState, conversationInteractor: conversationInteractor)
+        interactors = Interactors(appState: appState, conversationInteractor: conversationInteractor, modelsInteractor: ModelsInteractor(appState: appState))
         let panelView = PopUpView()
             .modelContainer(ConversationContainer.shared)
             .environmentObject(appState)
