@@ -5,7 +5,7 @@
 //  Created by Zsombor Szenyan on 26/08/2024.
 //
 
-import Foundation
+import SwiftUI
 
 final class ModelsInteractor: ModelsInteractorProtocol {
     let appState: AppState
@@ -28,5 +28,21 @@ final class ModelsInteractor: ModelsInteractorProtocol {
         } else {
             appState.selectedModel = "Unavailable"
         }
+    }
+
+    @MainActor
+    func delete(tag: String) async throws {
+        try await modelsRepository.delete(tag: tag)
+        withAnimation {
+            appState.models.removeAll(where: { $0 == tag })
+        }
+    }
+
+    @MainActor
+    func pull(tag: String, handler: @escaping (Data) async -> ()) async throws {
+        withAnimation {
+            appState.models.append(tag)
+        }
+        try await modelsRepository.pull(tag: tag, handler: handler)
     }
 }

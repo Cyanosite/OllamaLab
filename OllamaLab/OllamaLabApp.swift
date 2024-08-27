@@ -57,6 +57,11 @@ struct OllamaLabApp: App {
                 .environmentObject(appState)
                 .environment(\.interactors, interactors)
         }
+        Window("ModelsView", id: "ModelsView") {
+            ModelsView()
+                .environmentObject(appState)
+                .environment(\.interactors, interactors)
+        }
         Settings {
             SettingsView()
         }

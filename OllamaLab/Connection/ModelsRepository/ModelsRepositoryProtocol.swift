@@ -9,4 +9,6 @@ import Foundation
 
 protocol ModelsRepositoryProtocol {
     func getTags() async -> [String]
+    func delete(tag: String) async throws
+    func pull(tag: String, handler: @escaping (Data) async -> ()) async throws
 }

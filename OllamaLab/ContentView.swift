@@ -12,6 +12,7 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     @Environment(\.modelContext) private var context
     @Environment(\.interactors) private var interactors: Interactors
+    @Environment(\.openWindow) private var openWindow
     @State private var searchText = ""
     @Query(
         sort: [SortDescriptor(\Conversation.creationDate, order: .reverse)]
@@ -72,6 +73,12 @@ struct ContentView: View {
                         Button(modelName) {
                             setModel(modelName: modelName)
                         }
+                    }
+                    Divider()
+                    Button {
+                        openWindow(id: "ModelsView")
+                    } label: {
+                        Label("Edit models", systemImage: "arrow.up.right.square")
                     }
                 }
             }

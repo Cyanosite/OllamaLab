@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import HotKey
 
 struct SettingsView: View {
     @AppStorage("baseURL") private var baseURL = "http://localhost:11434"
@@ -81,16 +80,6 @@ enum CompanionResetInterval: Int, CaseIterable, Identifiable {
 enum CompanionOpenNewChats: Int, CaseIterable, Identifiable {
     case inCompanion, inApp
     var id: Self { self }
-}
-
-class CompanionShortcut {
-    let key: Key
-    let modifiers: NSEvent.ModifierFlags
-
-    init(key: Key, modifiers: NSEvent.ModifierFlags) {
-        self.key = key
-        self.modifiers = modifiers
-    }
 }
 
 #Preview {
