@@ -35,8 +35,15 @@ final class ModelsInteractor: ModelsInteractorProtocol {
     func pull(tag: String, handler: @escaping (Data) async -> ()) async throws {
         withAnimation {
             appState.models.append(tag)
+            appState.selectedModel = appState.models.last!
         }
         try await modelsRepository.pull(tag: tag, handler: handler)
+    }
+
+    @MainActor
+    func removeLastModel() {
+        appState.models.removeLast()
+        resetSelectedModel()
     }
 
     func resetSelectedModel() {

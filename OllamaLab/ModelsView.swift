@@ -209,7 +209,7 @@ struct ModelsView: View {
         withAnimation {
             isPullingModel = false
             isAddingNewModel = false
-            appState.models.removeLast()
+            interactors.modelsInteractor.removeLastModel()
         }
     }
 }
@@ -217,7 +217,6 @@ struct ModelsView: View {
 #Preview {
     let appState = AppState()
     appState.models = ["mistral-nemo:latest", "llama3.1:latest"]
-    let interactors = Interactors(appState: appState, conversationInteractor: ConversationInteractor(appState: appState), modelsInteractor: ModelsInteractor(appState: appState))
     return ModelsView()
         .environmentObject(appState)
 }
