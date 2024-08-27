@@ -56,6 +56,11 @@ struct ContentView: View {
             ConversationView()
                 .environmentObject(appState)
         }
+        .onAppear {
+            Task(priority: .background) {
+                await interactors.modelsInteractor.fetchTags()
+            }
+        }
         .alert(appState.alertMessage, isPresented: $appState.isAlertShowing) {
             Button("Ok", role: .cancel) {}
         }

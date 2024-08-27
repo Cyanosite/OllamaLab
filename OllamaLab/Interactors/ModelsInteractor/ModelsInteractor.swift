@@ -20,7 +20,13 @@ final class ModelsInteractor: ModelsInteractorProtocol {
     func fetchTags() async {
         appState.models = await modelsRepository.getTags()
         if let first = appState.models.first {
-            appState.selectedModel = first
+            if let llama = appState.models.first(where: { $0.contains("llama3.1") }) {
+                appState.selectedModel = llama
+            } else {
+                appState.selectedModel = first
+            }
+        } else {
+            appState.selectedModel = "Unavailable"
         }
     }
 }
