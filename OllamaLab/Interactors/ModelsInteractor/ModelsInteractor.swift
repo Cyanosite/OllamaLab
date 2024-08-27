@@ -19,15 +19,7 @@ final class ModelsInteractor: ModelsInteractorProtocol {
     @MainActor
     func fetchTags() async {
         appState.models = await modelsRepository.getTags()
-        if let first = appState.models.first {
-            if let llama = appState.models.first(where: { $0.contains("llama3.1") }) {
-                appState.selectedModel = llama
-            } else {
-                appState.selectedModel = first
-            }
-        } else {
-            appState.selectedModel = "Unavailable"
-        }
+        resetSelectedModel()
     }
 
     @MainActor
@@ -35,6 +27,7 @@ final class ModelsInteractor: ModelsInteractorProtocol {
         try await modelsRepository.delete(tag: tag)
         withAnimation {
             appState.models.removeAll(where: { $0 == tag })
+            resetSelectedModel()
         }
     }
 
@@ -44,5 +37,17 @@ final class ModelsInteractor: ModelsInteractorProtocol {
             appState.models.append(tag)
         }
         try await modelsRepository.pull(tag: tag, handler: handler)
+    }
+
+    func resetSelectedModel() {
+        if let first = appState.models.first {
+            if let llama = appState.models.first(where: { $0.contains("llama3.1") }) {
+                appState.selectedModel = llama
+            } else {
+                appState.selectedModel = first
+            }
+        } else {
+            appState.selectedModel = "Unavailable"
+        }
     }
 }
