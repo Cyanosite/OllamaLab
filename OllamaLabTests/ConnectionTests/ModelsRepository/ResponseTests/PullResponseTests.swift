@@ -39,4 +39,15 @@ final class PullResponseTests: XCTestCase {
         XCTAssertNil(decoded.total)
         XCTAssertNil(decoded.completed)
     }
+
+    func test_decode_withError_shouldSucceed() throws {
+        let json = """
+        {
+          "error": "pull model manifest: file does not exist"
+        }
+        """
+        let data = try XCTUnwrap(json.data(using: .utf8))
+        let decoded = try JSONDecoder().decode(PullResponse.self, from: data)
+        XCTAssertEqual(decoded.error, "pull model manifest: file does not exist")
+    }
 }

@@ -6,8 +6,9 @@
 //
 
 struct PullResponse: Decodable {
-    let status: String
+    let status: String?
     let digest: String?
     let total: UInt64?
     let completed: UInt64?
+    let error: String?
 }

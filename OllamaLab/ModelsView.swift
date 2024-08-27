@@ -111,6 +111,8 @@ struct ModelsView: View {
                 Text("Add new model")
             }
         }
+        .navigationTitle("Manage models")
+        .frame(minWidth: 600, minHeight: 300)
     }
 
     private func deleteModel(tag: String) {
@@ -171,27 +173,43 @@ struct ModelsView: View {
         }
         guard let decoded = try? JSONDecoder().decode(PullResponse.self, from: data) else {
             alertMessage = "Error while decoding progress"
-            withAnimation {
-                isAlertShowing = true
-                isPullingModel = false
-                appState.models.removeLast()
-                isAddingNewModel = false
-            }
+            isAlertShowing = true
+            resetPullModel()
             return
         }
         withAnimation {
-            pullingModelStatus = decoded.status
-            if let total = decoded.total, let completed = decoded.completed {
-                pullingModelTotal = total
-                pullingModelValue = completed
+            if let status = decoded.status {
+                pullingModelStatus = status
+                if let total = decoded.total, let completed = decoded.completed {
+                    pullingModelTotal = total
+                    pullingModelValue = completed
+                }
+            } else if let error = decoded.error {
+                alertMessage = error
+                isAlertShowing = true
+                resetPullModel()
+                return
+            } else {
+                alertMessage = "Invalid decoded JSON"
+                isAlertShowing = true
+                resetPullModel()
+                return
             }
         }
         if decoded.status == "success" {
             withAnimation {
                 isPullingModel = false
-                pullingModelTotal = 0
+                pullingModelTotal = 1
                 pullingModelValue = 0
             }
+        }
+    }
+
+    private func resetPullModel() {
+        withAnimation {
+            isPullingModel = false
+            isAddingNewModel = false
+            appState.models.removeLast()
         }
     }
 }
