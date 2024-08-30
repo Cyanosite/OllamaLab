@@ -116,23 +116,39 @@ class ConversationInteractor: ConversationInteractorProtocol {
         return message.id
     }
 
+    @MainActor
+    func deleteLastMessageFromSelectedConversation(id: UUID) async {
+        guard let selectedConversation = getCurrentConversation() else {
+            showErrorMessage()
+            return
+        }
+        if selectedConversation.messages?.count == 2 {
+            context.delete(selectedConversation)
+        } else {
+            withAnimation {
+                selectedConversation.messages?.removeAll(where: {$0.id == id})
+            }
+        }
+    }
+
     func sendGenerateResponseRequest(streaming: Bool) async {
         guard let history = await getCurrentConversation()?.messages?.sorted(by: {$0.timestamp < $1.timestamp}) else {
             await showErrorMessage(message: "Conversation should already contain messages, invalid state")
             return
         }
+        guard let messageID = await addMessageToSelectedConversation(role: .assistant, content: "") else {
+            await showErrorMessage()
+            return
+        }
         do {
             if streaming {
-                guard let messageID = await addMessageToSelectedConversation(role: .assistant, content: "") else {
-                    await showErrorMessage()
-                    return
-                }
                 try await repository.generateResponseStreaming(model: appState.selectedModel, with: history, handler: handleSendMessageResponseStreaming, messageID: messageID)
             } else {
                 try repository.generateResponse(model: appState.selectedModel, with: history, handler: handleSendMessageResponse)
             }
         } catch {
             await showErrorMessage(message: "Ollama is currently unavailable")
+            await deleteLastMessageFromSelectedConversation(id: messageID)
         }
     }
 

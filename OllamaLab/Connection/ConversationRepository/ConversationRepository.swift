@@ -29,7 +29,7 @@ final class ConversationRepository: ConversationRepositoryProtocol {
 
     @MainActor
     func handleServerError(_ error: URLResponse?) {
-
+        showErrorMessage(message: "A server side network error has occurred.")
     }
 
     @MainActor
