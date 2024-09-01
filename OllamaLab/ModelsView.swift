@@ -34,7 +34,7 @@ struct ModelsView: View {
                         .textSelection(.enabled)
                         .font(.system(size: 15, weight: .semibold, design: .monospaced))
                         .padding(5)
-                        .swipeActions {
+                        .swipeActions(allowsFullSwipe: false) {
                             Button {
                                 deleteModel(tag: model)
                             } label: {
@@ -49,6 +49,7 @@ struct ModelsView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
             if isAddingNewModel {
                 HStack {
                     Button {
@@ -77,6 +78,17 @@ struct ModelsView: View {
                             withAnimation(.bouncy) {
                                 isNewModelNameEmpty = newModelName.isEmpty
                             }
+                        }
+                        .onKeyPress(.tab) {
+                            guard !newModelName.isEmpty else {
+                                return .handled
+                            }
+                            if !newModelName.contains(":") {
+                                withAnimation {
+                                    newModelName += ":latest"
+                                }
+                            }
+                            return .handled
                         }
                     if !isNewModelNameEmpty {
                         Button {

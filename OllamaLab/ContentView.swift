@@ -76,11 +76,20 @@ struct ContentView: View {
                     }
                     Divider()
                     Button {
+                        Task(priority: .background) {
+                            await interactors.modelsInteractor.fetchTags()
+                        }
+                    } label: {
+                        Label("Refresh", systemImage: "arrow.clockwise.square")
+                    }
+                    Divider()
+                    Button {
                         openWindow(id: "ModelsView")
                     } label: {
                         Label("Edit models", systemImage: "arrow.up.right.square")
                     }
                 }
+                .labelStyle(.titleAndIcon)
             }
         }
     }

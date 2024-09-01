@@ -33,6 +33,10 @@ final class ModelsInteractor: ModelsInteractorProtocol {
 
     @MainActor
     func pull(tag: String, handler: @escaping (Data) async -> ()) async throws {
+        var tag = tag
+        if !tag.contains(":") {
+            tag += ":latest"
+        }
         withAnimation {
             appState.models.append(tag)
             appState.selectedModel = appState.models.last!
