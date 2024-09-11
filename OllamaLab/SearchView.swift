@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var searchText: String
     var body: some View {
         HStack {
@@ -20,7 +21,7 @@ struct SearchView: View {
         .padding(.vertical, 5)
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .fill(Color(hue: 1.0, saturation: 0.03, brightness: 0.344, opacity: 0.466))
+                .fill(.black.opacity(colorScheme == .dark ? 0.3 : 0.1))
                 .stroke(.gray)
         }
         .padding(.horizontal, 10)
