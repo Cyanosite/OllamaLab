@@ -13,8 +13,12 @@ struct ConversationView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.interactors) var interactors: Interactors
 
+    /// When false, the composer skips Liquid Glass so it can sit inside a parent glass surface.
+    var usesGlassComposer: Bool = true
+
     @State private var message = ""
     @State private var isMessageEmpty = true
+    @Namespace private var composerNamespace
     @Query private var messages: [Message]
     private var filteredMessages: [Message] {
         get {
@@ -48,40 +52,9 @@ struct ConversationView: View {
                     }
                 }
             }
-            HStack(alignment: .bottom, spacing: 0) {
-                TextField("Message OllamaLab", text: $message, axis: .vertical)
-                    .textFieldStyle(.plain)
-                    .lineLimit(7)
-                    .font(.system(size: 14))
-                    .fontWeight(.regular)
-                    .lineLimit(10)
-                    .padding(8)
-                    .padding(.horizontal, 5)
-                    .background {
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke()
-                    }
-                    .onChange(of: message) {
-                        withAnimation(.bouncy) {
-                            isMessageEmpty = message.isEmpty
-                        }
-                    }
-                    .onSubmit {
-                        sendMessage()
-                    }
-                if !isMessageEmpty && !appState.isModelResponding {
-                    Button {
-                        sendMessage()
-                    } label: {
-                        Image(systemName: "arrow.up.circle.fill")
-                            .font(.title)
-                    }
-                    .buttonStyle(SendMessageButtonStyle())
-                    .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
-                    .padding(4)
-                }
-            }
-            .padding(10)
+            .scrollEdgeEffectStyle(.soft, for: .top)
+            composer
+                .padding(10)
         }
         .frame(minWidth: 300, minHeight: 100)
         .toolbar {
@@ -90,11 +63,60 @@ struct ConversationView: View {
                     Label("Open PopUp", systemImage: "arrow.up.forward.app")
                 }
             }
+            ToolbarSpacer(.fixed)
             ToolbarItem {
                 Button(action: newConversation) {
                     Label("Add Item", systemImage: "square.and.pencil")
                 }
                 .disabled(isConversationEmpty)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var composer: some View {
+        if usesGlassComposer {
+            GlassEffectContainer(spacing: 12) {
+                composerControls(useGlass: true)
+            }
+        } else {
+            composerControls(useGlass: false)
+        }
+    }
+
+    @ViewBuilder
+    private func composerControls(useGlass: Bool) -> some View {
+        HStack(alignment: .bottom, spacing: 8) {
+            TextField("Message OllamaLab", text: $message, axis: .vertical)
+                .textFieldStyle(.plain)
+                .lineLimit(7)
+                .font(.system(size: 14))
+                .fontWeight(.regular)
+                .padding(10)
+                .padding(.horizontal, 4)
+                .modifier(ComposerFieldChrome(useGlass: useGlass))
+                .modifier(OptionalGlassEffectID(id: "composer", namespace: composerNamespace, isEnabled: useGlass))
+                .onChange(of: message) {
+                    withAnimation(.bouncy) {
+                        isMessageEmpty = message.isEmpty
+                    }
+                }
+                .onSubmit {
+                    sendMessage()
+                }
+            if !isMessageEmpty && !appState.isModelResponding {
+                Button {
+                    sendMessage()
+                } label: {
+                    Image(systemName: "arrow.up")
+                        .font(.body.weight(.semibold))
+                        .frame(width: 28, height: 28)
+                }
+                .buttonStyle(.glassProminent)
+                .buttonBorderShape(.circle)
+                .modifier(OptionalGlassEffectID(id: "send", namespace: composerNamespace, isEnabled: useGlass))
+                .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
+                .padding(.bottom, 2)
             }
         }
     }
@@ -119,9 +141,32 @@ struct ConversationView: View {
     }
 }
 
-struct SendMessageButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
+private struct ComposerFieldChrome: ViewModifier {
+    let useGlass: Bool
+
+    func body(content: Content) -> some View {
+        if useGlass {
+            content.glassEffect(.regular.interactive(), in: .rect(cornerRadius: 25))
+        } else {
+            content.background {
+                RoundedRectangle(cornerRadius: 25)
+                    .strokeBorder(.secondary.opacity(0.35))
+            }
+        }
+    }
+}
+
+private struct OptionalGlassEffectID: ViewModifier {
+    let id: String
+    let namespace: Namespace.ID
+    let isEnabled: Bool
+
+    func body(content: Content) -> some View {
+        if isEnabled {
+            content.glassEffectID(id, in: namespace)
+        } else {
+            content
+        }
     }
 }
 

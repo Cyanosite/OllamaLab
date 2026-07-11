@@ -12,6 +12,7 @@ import MarkdownView
 struct AssistantMessageView: View {
     @State private var isOptionsShowing = false
     @State private var isMessageCopied = false
+    @Namespace private var actionsNamespace
     var message: Message
     let messageIndex: Int
     var body: some View {
@@ -30,10 +31,16 @@ struct AssistantMessageView: View {
             }
             .overlay(alignment: .bottom) {
                 if isOptionsShowing {
-                    HStack(spacing: 12) {
-                        CopyButtonView(messageContent: message.content)
-                        RegenerateButtonView(selectedMessageIndex: messageIndex)
-                        Spacer()
+                    GlassEffectContainer(spacing: 8) {
+                        HStack(spacing: 8) {
+                            CopyButtonView(messageContent: message.content)
+                                .glassEffectID("copy", in: actionsNamespace)
+                                .glassEffectTransition(.materialize)
+                            RegenerateButtonView(selectedMessageIndex: messageIndex)
+                                .glassEffectID("regenerate", in: actionsNamespace)
+                                .glassEffectTransition(.materialize)
+                            Spacer()
+                        }
                     }
                 }
             }

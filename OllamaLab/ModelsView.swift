@@ -20,6 +20,7 @@ struct ModelsView: View {
     @State private var pullingModelStatus = ""
     @State private var pullingModelTotal: UInt64 = 1
     @State private var pullingModelValue: UInt64 = 0
+    @Namespace private var pullNamespace
     private var progressValue: Double {
         get {
             Double(pullingModelValue) / Double(pullingModelTotal)
@@ -51,58 +52,62 @@ struct ModelsView: View {
             }
             .scrollContentBackground(.hidden)
             if isAddingNewModel {
-                HStack {
-                    Button {
-                        withAnimation {
-                            isAddingNewModel = false
-                        }
-                    } label: {
-                        Image(systemName: "x.circle.fill")
-                            .font(.title)
-                    }
-                    .buttonStyle(SendMessageButtonStyle())
-                    TextField("modelName:tag", text: $newModelName)
-                        .textFieldStyle(.plain)
-                        .font(.system(size: 14))
-                        .fontWeight(.regular)
-                        .padding(8)
-                        .padding(.horizontal, 5)
-                        .background {
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke()
-                        }
-                        .onSubmit {
-                            pullModel(tag: newModelName)
-                        }
-                        .onChange(of: newModelName) {
-                            withAnimation(.bouncy) {
-                                isNewModelNameEmpty = newModelName.isEmpty
+                GlassEffectContainer(spacing: 10) {
+                    HStack(spacing: 8) {
+                        Button {
+                            withAnimation {
+                                isAddingNewModel = false
                             }
+                        } label: {
+                            Image(systemName: "xmark")
+                                .frame(width: 28, height: 28)
                         }
-                        .onKeyPress(.tab) {
-                            guard !newModelName.isEmpty else {
-                                return .handled
+                        .buttonStyle(.glass)
+                        .buttonBorderShape(.circle)
+                        .glassEffectID("cancel", in: pullNamespace)
+                        TextField("modelName:tag", text: $newModelName)
+                            .textFieldStyle(.plain)
+                            .font(.system(size: 14))
+                            .fontWeight(.regular)
+                            .padding(10)
+                            .padding(.horizontal, 4)
+                            .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 25))
+                            .glassEffectID("field", in: pullNamespace)
+                            .onSubmit {
+                                pullModel(tag: newModelName)
                             }
-                            if !newModelName.contains(":") {
-                                withAnimation {
-                                    newModelName += ":latest"
+                            .onChange(of: newModelName) {
+                                withAnimation(.bouncy) {
+                                    isNewModelNameEmpty = newModelName.isEmpty
                                 }
                             }
-                            return .handled
+                            .onKeyPress(.tab) {
+                                guard !newModelName.isEmpty else {
+                                    return .handled
+                                }
+                                if !newModelName.contains(":") {
+                                    withAnimation {
+                                        newModelName += ":latest"
+                                    }
+                                }
+                                return .handled
+                            }
+                        if !isNewModelNameEmpty {
+                            Button {
+                                pullModel(tag: newModelName)
+                            } label: {
+                                Image(systemName: "checkmark")
+                                    .frame(width: 28, height: 28)
+                            }
+                            .buttonStyle(.glassProminent)
+                            .buttonBorderShape(.circle)
+                            .glassEffectID("confirm", in: pullNamespace)
+                            .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
                         }
-                    if !isNewModelNameEmpty {
-                        Button {
-                            pullModel(tag: newModelName)
-                        } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.title)
-                        }
-                        .buttonStyle(SendMessageButtonStyle())
-                        .transition(.asymmetric(insertion: .push(from: .trailing), removal: .push(from: .leading)))
                     }
                 }
                 .transition(.move(edge: .bottom))
-                .padding(5)
+                .padding(8)
             }
         }
         .alert(alertMessage, isPresented: $isAlertShowing) {
@@ -120,7 +125,6 @@ struct ModelsView: View {
                     Label("Add new model", systemImage: "arrow.down.square")
                         .labelStyle(.titleAndIcon)
                 }
-                Text("Add new model")
             }
         }
         .navigationTitle("Manage models")

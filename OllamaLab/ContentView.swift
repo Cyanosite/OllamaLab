@@ -30,8 +30,6 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            SearchView(searchText: $searchText)
-                .disabled(conversations.isEmpty)
             List(selection: $appState.selectedConversation) {
                 ForEach(filteredConversations) { conversation in
                     if conversation.title.isEmpty {
@@ -57,6 +55,7 @@ struct ContentView: View {
             ConversationView()
                 .environmentObject(appState)
         }
+        .searchable(text: $searchText, prompt: "Search")
         .onAppear {
             Task(priority: .background) {
                 await interactors.modelsInteractor.fetchTags()
