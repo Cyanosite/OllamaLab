@@ -13,13 +13,13 @@ final class ModelRequestTests: XCTestCase {
         let json = {
             var json = """
             {
-              "name": "llama3:13b"
+              "model": "llama3:13b"
             }
             """
             json.removeAll(where: { $0.isWhitespace })
             return json
         }()
-        let request = ModelRequest(name: "llama3:13b")
+        let request = ModelRequest(model: "llama3:13b")
         let encoded = try JSONEncoder().encode(request)
         let string = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(string, json)

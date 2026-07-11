@@ -44,7 +44,7 @@ final class ModelsRepository: ModelsRepositoryProtocol {
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let data = try? encoder.encode(ModelRequest(name: tag))
+        let data = try? encoder.encode(ModelRequest(model: tag))
         guard let data else {
             throw DeleteModelError.encoding
         }
@@ -75,7 +75,7 @@ final class ModelsRepository: ModelsRepositoryProtocol {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        guard let body = try? encoder.encode(ModelRequest(name: tag)) else {
+        guard let body = try? encoder.encode(ModelRequest(model: tag)) else {
             throw PullModelError.encoding
         }
         request.httpBody = body

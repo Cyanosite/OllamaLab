@@ -6,5 +6,5 @@
 //
 
 struct ModelRequest: Encodable {
-    let name: String
+    let model: String
 }
