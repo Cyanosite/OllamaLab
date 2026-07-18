@@ -31,14 +31,9 @@ struct PopUpView: View {
         if didSubmit == false {
             TextField("Message llama", text: $message)
                 .textFieldStyle(.plain)
-                .padding(8)
+                .padding(10)
                 .padding(.horizontal, 5)
-                .background {
-                    RoundedRectangle(cornerRadius: 25)
-                        .fill(.ultraThinMaterial)
-                        .stroke(.white)
-                }
-                .padding(1)
+                .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 25))
                 .frame(width: 300)
                 .onSubmit {
                     guard !message.isEmpty else { return }
@@ -173,5 +168,3 @@ class FloatingPanel: NSPanel {
     return PopUpView()
         .environmentObject(appState)
 }
-
-

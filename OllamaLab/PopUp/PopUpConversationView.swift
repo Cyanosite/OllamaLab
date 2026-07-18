@@ -24,56 +24,64 @@ struct PopUpConversationView: View {
         }
     }
     @State private var isHovering = false
+    @Namespace private var controlsNamespace
 
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    appState.panel.close()
-                } label: {
-                    Image(systemName: "x.circle.fill")
-                }
-                .padding(5)
-                Spacer()
-                Button {
-                    appState.panel.close()
-                    let isMainWindowOpen = {
-                        for window in NSApp.orderedWindows where ((window.identifier?.rawValue.contains("ContentView")) != nil) {
-                            return true
-                        }
-                        return false
-                    }()
-                    if !isMainWindowOpen {
-                        openWindow(id: "ContentView")
+            GlassEffectContainer(spacing: 8) {
+                HStack {
+                    Button {
+                        appState.panel.close()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .frame(width: 24, height: 24)
                     }
-                } label: {
-                    Image(systemName: "arrow.up.forward.app")
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .glassEffectID("close", in: controlsNamespace)
+                    Spacer()
+                    Button {
+                        appState.panel.close()
+                        let isMainWindowOpen = {
+                            for window in NSApp.orderedWindows where ((window.identifier?.rawValue.contains("ContentView")) != nil) {
+                                return true
+                            }
+                            return false
+                        }()
+                        if !isMainWindowOpen {
+                            openWindow(id: "ContentView")
+                        }
+                    } label: {
+                        Image(systemName: "arrow.up.forward.app")
+                            .frame(width: 24, height: 24)
+                    }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .glassEffectID("open", in: controlsNamespace)
+                    Button {
+                        interactors.conversationInteractor.newConversation()
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                            .frame(width: 24, height: 24)
+                    }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .disabled(isConversationEmpty)
+                    .glassEffectID("new", in: controlsNamespace)
                 }
-                .padding(5)
-                Button {
-                    interactors.conversationInteractor.newConversation()
-                } label: {
-                    Image(systemName: "square.and.pencil.circle")
-                }
-                .padding(5)
-                .disabled(isConversationEmpty)
             }
-            .font(.title2)
-            .buttonStyle(PlainButtonStyle())
+            .font(.body)
             .opacity(isHovering ? 1 : 0)
             .onHover { isHovering in
                 withAnimation {
                     self.isHovering = isHovering
                 }
             }
-            ConversationView()
+            .padding(.horizontal, 8)
+            .padding(.top, 8)
+            ConversationView(usesGlassComposer: false)
         }
-        .background {
-            RoundedRectangle(cornerRadius: 15)
-                .fill(.ultraThinMaterial)
-                .stroke(.white)
-        }
-        .padding(1)
+        .glassEffect(.regular, in: .rect(cornerRadius: 15))
         .frame(idealWidth: 350, minHeight: 450)
     }
 }

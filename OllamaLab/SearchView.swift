@@ -8,22 +8,18 @@
 import SwiftUI
 
 struct SearchView: View {
-    @Environment(\.colorScheme) var colorScheme
     @Binding var searchText: String
     var body: some View {
         HStack {
             Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
+                .foregroundStyle(.secondary)
                 .padding(.leading, 5)
             TextField("Search", text: $searchText)
                 .textFieldStyle(.plain)
         }
-        .padding(.vertical, 5)
-        .background {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(.black.opacity(colorScheme == .dark ? 0.3 : 0.1))
-                .stroke(.gray)
-        }
+        .padding(.vertical, 8)
+        .padding(.horizontal, 4)
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 10))
         .padding(.horizontal, 10)
     }
 }

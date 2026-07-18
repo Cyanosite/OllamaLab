@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RegenerateButtonView: View {
     @Environment(\.interactors) var interactors: Interactors
-    @State private var isHovering = false
     let selectedMessageIndex: Int
 
     var body: some View {
@@ -19,14 +18,11 @@ struct RegenerateButtonView: View {
             }
         } label: {
             Image(systemName: "arrow.triangle.2.circlepath")
+                .frame(width: 24, height: 24)
         }
-        .foregroundStyle(isHovering ? .white : .gray)
-        .buttonStyle(PlainButtonStyle())
-        .onHover { isHovering in
-            withAnimation(.easeInOut(duration: 0.1)) {
-                self.isHovering = isHovering
-            }
-        }
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
+        .controlSize(.small)
     }
 }
 

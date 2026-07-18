@@ -24,10 +24,7 @@ struct SettingsSectionView<Content: View>: View {
                 SectionContent()
             }
             .padding(.vertical, 5)
-            .overlay {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(.gray)
-            }
+            .glassEffect(.regular, in: .rect(cornerRadius: 12))
             .padding(.horizontal)
         }
         .padding(.vertical, 15)

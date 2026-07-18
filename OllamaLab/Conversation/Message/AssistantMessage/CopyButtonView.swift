@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CopyButtonView: View {
-    @State private var isHovering = false
     @State private var iconSystemName = "doc.on.clipboard"
     var messageContent: String
 
@@ -21,14 +20,11 @@ struct CopyButtonView: View {
             NSPasteboard.general.setString(messageContent, forType: .string)
         } label: {
             Image(systemName: iconSystemName)
+                .frame(width: 24, height: 24)
         }
-        .foregroundStyle(isHovering ? .white : .gray)
-        .buttonStyle(PlainButtonStyle())
-        .onHover { isHovering in
-            withAnimation(.easeInOut(duration: 0.1)) {
-                self.isHovering = isHovering
-            }
-        }
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
+        .controlSize(.small)
     }
 }
 
