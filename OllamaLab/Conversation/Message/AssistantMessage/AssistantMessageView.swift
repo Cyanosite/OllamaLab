@@ -23,7 +23,7 @@ struct AssistantMessageView: View {
                 Spacer()
             }
             VStack(alignment: .leading) {
-                MarkdownView(text: message.content)
+                MarkdownView(message.content)
                     .tint(.gray, for: .inlineCodeBlock)
                     .textSelection(.enabled)
                     .padding(.bottom, 25)

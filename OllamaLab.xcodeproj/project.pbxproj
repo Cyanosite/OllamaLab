@@ -788,7 +788,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"OllamaLab/Preview Content\"";
-				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				DEVELOPMENT_TEAM = NLJW43UC2F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -817,7 +817,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"OllamaLab/Preview Content\"";
-				DEVELOPMENT_TEAM = 3H5Q5398YD;
+				DEVELOPMENT_TEAM = NLJW43UC2F;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -962,7 +962,7 @@
 			repositoryURL = "https://github.com/LiYanan2004/MarkdownView.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
